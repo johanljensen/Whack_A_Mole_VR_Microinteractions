@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddbc75b0f1d14cd49b23c322edece13d, type: 3}
+  m_Name: Pause Texts
+  m_EditorClassIdentifier: 
+  PleaseWaitText: Please wait for the therapist to resume the game
+  AlgorithmRateText: 'With this algorithm, the feedback clearly corresponded to whether
+    I was fast or slow
+
+    (highly disagree) 1 2 3 4 5 6 7 (highly agree)'
+  PleaseExplainText: Please explain what happened last summer
+  HowMuchFeedbackText: 'How much feedback did you get?
+
+    (nothing) 1 2 3 4 5 6
+    7 (a lot)'
+  HowFeelFeedbackText: 'Overall, How good did the feedback feel?
+
+    (not at all
+    good) 1 2 3 4 5 6 7 (very good)'
