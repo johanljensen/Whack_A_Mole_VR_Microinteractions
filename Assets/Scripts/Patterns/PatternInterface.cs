@@ -260,6 +260,7 @@ public class PatternInterface : MonoBehaviour
         message = message.Replace("_"," ");
         message = message.Replace("|","\n");
         playerPanel.SetMessage(message, ParseFloat(time));
+        gameDirector.PauseUnpauseGame();
     }
 
     // Updates one or multiple modifiers

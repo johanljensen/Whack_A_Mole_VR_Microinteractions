@@ -37,19 +37,19 @@ public class BasicPointer : Pointer
         Vector3 direction = Vector3.zero;
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            direction.y += 0.25f;
+            direction.y += 0.10f;
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            direction.x -= 0.25f;
+            direction.x -= 0.10f;
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            direction.y -= 0.25f;
+            direction.y -= 0.10f;
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            direction.x += 0.25f;
+            direction.x += 0.10f;
         }
         return direction.normalized;
     }
