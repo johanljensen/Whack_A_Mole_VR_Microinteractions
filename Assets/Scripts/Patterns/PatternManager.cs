@@ -63,6 +63,8 @@ public class PatternManager : MonoBehaviour
     // Plays the pattern if one is loaded.
     public bool PlayPattern()
     {
+        Debug.Log("PLAY PATTERN");
+
         if (!PatternLoaded())
         {
             Debug.LogError("No pattern loaded!");
@@ -83,12 +85,14 @@ public class PatternManager : MonoBehaviour
     // Stops the pattern playing.
     public void StopPattern()
     {
+        Debug.Log("STOP PATTERN");
         if (patternPlayer.IsPlaying()) patternPlayer.StopPatternPlay();
     }
 
     // Pauses the pattern playing.
     public void PauseUnpausePattern(bool pause)
     {
+        Debug.Log("PAUSE PATTERN");
         patternPlayer.PauseUnpausePattern(pause);
     }
 

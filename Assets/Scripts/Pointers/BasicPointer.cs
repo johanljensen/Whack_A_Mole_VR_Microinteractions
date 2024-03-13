@@ -162,7 +162,9 @@ public class BasicPointer : Pointer
                         }
                         dwellduration += Time.deltaTime;
                         dwellTimer = dwellTimer + 0.1f;
-                        if (dwellTimer > dwellTime)
+
+                    Debug.Log("SHOOTING MOLE:" + dwellTimer + " : " + dwellTime);
+                    if (dwellTimer > dwellTime)
                         {
                             pointerShootOrder++;
                             loggerNotifier.NotifyLogger(overrideEventParameters: new Dictionary<string, object>(){

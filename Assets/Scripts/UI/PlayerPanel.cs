@@ -134,7 +134,15 @@ public class PlayerPanel : MonoBehaviour
     public void OnGameStateChanged(GameDirector.GameState gameState)
     {
         gamePaused = gameState == GameDirector.GameState.Paused;
-        Debug.Log("Game PAUSED triggered by Player Panel");
+
+        if (gamePaused)
+        {
+            Debug.Log("Game PAUSED triggered by Player Panel");
+        }
+        else
+        {
+            Debug.Log("Game UNpaused triggered by Player Panel");
+        }
     }
 
     private IEnumerator WaitShowMessage(float duration, string text) {

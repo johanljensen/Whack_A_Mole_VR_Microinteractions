@@ -146,6 +146,7 @@ public class DiskMole : Mole
 
     protected override void PlayHoverEnter() 
     {
+        Debug.Log("START HOVERING ON MOLE");
         if (moleType == Mole.MoleType.Target)
         {
             meshMaterial.color = hoverColor;
@@ -158,6 +159,7 @@ public class DiskMole : Mole
 
     protected override void PlayHoverLeave() 
     {
+        Debug.Log("STOP HOVERING ON MOLE");
         if (moleType == Mole.MoleType.Target)
         {
             meshMaterial.color = enabledColor;
@@ -170,6 +172,7 @@ public class DiskMole : Mole
 
     public override void PlayFeedback(float feedback, float duration)
     {
+        Debug.Log("MOLE FEEDBACK");
         Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
         PlayAnimation("PopCorrectMole");
         StartCoroutine(ChangeColorOverTime(enabledColor, colorFeedback, disabledColor, 0.15f, duration-1.5f, feedback, -1f));
@@ -177,7 +180,9 @@ public class DiskMole : Mole
 
     protected override void PlayPop(float feedback, float perf)
     {
+        Debug.Log("MOLE POP");
         if (ShouldPerformanceFeedback()) {
+            Debug.Log("CHECKMARK FEEDBACK");
             if (moleType==Mole.MoleType.Target)
             {
                 Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);

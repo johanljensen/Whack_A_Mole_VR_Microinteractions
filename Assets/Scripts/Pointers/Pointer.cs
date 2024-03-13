@@ -337,6 +337,7 @@ public abstract class Pointer : MonoBehaviour
     // and raises a "Mole Missed" event.
     protected virtual void Shoot(RaycastHit hit, float dwellduration = 0f)
     {
+        Debug.Log("SHOT MOLE");
         Mole mole;
 
         state = States.CoolingDown;

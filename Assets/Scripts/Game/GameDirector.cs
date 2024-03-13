@@ -152,6 +152,7 @@ public class GameDirector : MonoBehaviour
     // Starts the game.
     public void StartGame()
     {
+        Debug.Log("START GAME");
         //constraint.SetReset();
 
         if (gameState == GameState.Playing) return;
@@ -218,6 +219,7 @@ public class GameDirector : MonoBehaviour
     // Pauses/unpauses the game.
     public void PauseUnpauseGame()
     {
+        Debug.Log("PAUSE GAME");
         if (gameState == GameState.Stopped) return;
 
         if(gameState == GameState.Playing)
