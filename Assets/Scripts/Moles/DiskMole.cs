@@ -182,7 +182,7 @@ public class DiskMole : Mole
     {
         Debug.Log("MOLE POPPED");
         if (ShouldPerformanceFeedback()) {
-            Debug.Log("CHECKMARK FEEDBACK");
+            Debug.Log("DISPLAY CHECKMARK");
             if (moleType==Mole.MoleType.Target)
             {
                 Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
