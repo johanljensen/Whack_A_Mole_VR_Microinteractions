@@ -180,7 +180,7 @@ public class DiskMole : Mole
 
     protected override void PlayPop(float feedback, float perf)
     {
-        Debug.Log("MOLE POP");
+        Debug.Log("MOLE POPPED");
         if (ShouldPerformanceFeedback()) {
             Debug.Log("CHECKMARK FEEDBACK");
             if (moleType==Mole.MoleType.Target)
