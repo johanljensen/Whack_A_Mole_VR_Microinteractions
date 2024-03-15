@@ -186,8 +186,16 @@ public class DiskMole : Mole
             if (moleType==Mole.MoleType.Target)
             {
                 Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
-                PlayAnimation("PopCorrectMole"); // Show positive feedback to users that shoot a correct moles, to make it clear this is a success
-                StartCoroutine(CircularExpansion(enabledColor, colorFeedback, disabledColor, 0.15f, 0.15f, feedback, perf));
+                bool altEffect = true;
+                if (altEffect)
+                {
+                    StartCoroutine(CircularExpansion(enabledColor, colorFeedback, disabledColor, 0.15f, 0.15f, feedback, perf));
+                }
+                else
+                {
+                    PlayAnimation("PopCorrectMole"); // Show positive feedback to users that shoot a correct moles, to make it clear this is a success
+                    StartCoroutine(ChangeColorOverTime(enabledColor, colorFeedback, disabledColor, 0.15f, 0.15f, feedback, perf));
+                }
                 meshMaterial.mainTexture = textureDisabled;
             }
             else
@@ -293,6 +301,7 @@ public class DiskMole : Mole
             yield return null;
         }
 
+        Color checkmarkOpacity = checkmark.color;
         Color colorFeedbackFaded = new Color(colorFeedback.r, colorFeedback.g, colorFeedback.b, 0);
         while (elapsedTime < duration)
         {
@@ -304,9 +313,10 @@ public class DiskMole : Mole
 
         // Hold the end color for 0.1 seconds
         yield return new WaitForSeconds(waitTime);
-
         circleOutline.color = new Color(circleOutline.color.r, circleOutline.color.g, circleOutline.color.b, 0.0f);
         ChangeColor(colorEnd);
+        checkmarkOpacity.a = 0f; // force  0 opacity at end.
+        checkmark.color = checkmarkOpacity;
         transform.localScale = normalSize;
         perfText.SetActive(false);
     }
