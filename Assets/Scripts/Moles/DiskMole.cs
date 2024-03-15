@@ -277,6 +277,7 @@ public class DiskMole : Mole
 
     IEnumerator CircularExpansion(Color colorStart, Color colorFeedback, Color colorEnd, float duration, float waitTime, float feedback, float perf)
     {
+        Debug.Log("USING EXPERIMENTAL EFFECT");
         // Debug Info: performance indication
         var txt = perfText.GetComponentInChildren<Text>();
         if (perf != -1f)
