@@ -32,6 +32,7 @@ public class BasicPointer : Pointer
 
     internal Vector3 MappedPosition { get; private set; }
 
+    /*
     public Vector3 CalculateDirection()
     {
         Vector3 direction = Vector3.zero;
@@ -53,6 +54,7 @@ public class BasicPointer : Pointer
         }
         return direction.normalized;
     }
+    */
 
     public void Update()
     {
@@ -64,6 +66,7 @@ public class BasicPointer : Pointer
                 float v = Input.GetAxisRaw("Vertical");
                 float h = Input.GetAxisRaw("Horizontal");
                 float mouseSpeed = 1;
+                float keyboardSpeed = 0.15f;
 
                 if (Input.GetKey(KeyCode.LeftAlt))
                 {
@@ -74,7 +77,7 @@ public class BasicPointer : Pointer
                 }
                 else
                 {
-                    Vector3 direction = new Vector3(h, v, 0f).normalized;
+                    Vector3 direction = new Vector3(h, v, 0f).normalized * keyboardSpeed;
                     this.transform.Translate(direction * 1 * Time.deltaTime);
                 }
                 PointerControl();
