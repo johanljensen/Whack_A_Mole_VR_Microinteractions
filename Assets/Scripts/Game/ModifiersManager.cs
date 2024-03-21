@@ -1,4 +1,4 @@
-﻿ using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using System;
 
 [System.Serializable]
-public class ModifierUpdateEvent : UnityEvent<string, string> {}
+public class ModifierUpdateEvent : UnityEvent<string, string> { }
 
 
 /*
@@ -23,13 +23,13 @@ public class ModifiersManager : MonoBehaviour
 
     public Dictionary<string, object> defaultModifiers;
 
-    public enum ControllerSetup {Left, Both, Right, Off};
-    public enum Embodiment {Hands, Cursor, Off};
-    public enum MotorspaceSize {Tiny1, Tiny2, Tiny3, Small, Medium, Large};
+    public enum ControllerSetup { Left, Both, Right, Off };
+    public enum Embodiment { Hands, Cursor, Off };
+    public enum MotorspaceSize { Tiny1, Tiny2, Tiny3, Small, Medium, Large };
     public enum MotorspaceOutOfBoundsSignifier { None, DynamicCenter, StaticPointing, DynamicCenterReversed };
-    public enum PerformanceFeedback { None, Operation, Action, Task, All};
-    public enum EyePatch {Left, None, Right};
-    public enum HideWall {Left, None, Right};
+    public enum PerformanceFeedback { None, Operation, Action, Task, All, ActionExpand };
+    public enum EyePatch { Left, None, Right };
+    public enum HideWall { Left, None, Right };
 
     [SerializeField]
     private bool performanceFeedbackText = false;
@@ -128,7 +128,7 @@ public class ModifiersManager : MonoBehaviour
     private bool motorRestriction;
     private float motorRestrictionUpper = 1f;
     private float motorRestrictionLower = 0.5f;
-    
+
     private Dictionary<string, Pointer> controllersList;
     private LoggerNotifier loggerNotifier;
     private ModifierUpdateEvent modifierUpdateEvent = new ModifierUpdateEvent();
@@ -171,7 +171,7 @@ public class ModifiersManager : MonoBehaviour
             {"JudgementType", judgementType}
         });
 
-        defaultModifiers = new Dictionary<string, object> () {
+        defaultModifiers = new Dictionary<string, object>() {
         {"ControllerSetup", this.controllerSetup},
         {"MotorspaceSize", this.motorspaceSize},
         {"MotorspaceOutOfBoundsSignifier", this.motorspaceOutOfBoundsSignifier},
@@ -193,35 +193,39 @@ public class ModifiersManager : MonoBehaviour
         };
     }
 
-    void Start() {
+    void Start()
+    {
         SetDefaultModifiers();
     }
 
-    public void UpdateDefaultModifier(string modifier, object val) {
+    public void UpdateDefaultModifier(string modifier, object val)
+    {
         defaultModifiers[modifier] = val;
     }
 
-    public void SetDefaultModifiers() {
+    public void SetDefaultModifiers()
+    {
         SetModifiers(defaultModifiers);
     }
 
-    public void SetModifiers(Dictionary<string, object> state) {
-        SetEyePatch((ModifiersManager.EyePatch) state["EyePatch"]);
-        SetHideWall((ModifiersManager.HideWall) state["HideWall"]);
-        SetMotorRestriction((bool) state["MotorRestriction"]);
-        SetMotorRestrictionUpper((float) state["MotorRestrictionUpper"]);
-        SetMotorRestrictionLower((float) state["MotorRestrictionLower"]);
-        SetMotorspace((ModifiersManager.MotorspaceSize) state["MotorspaceSize"]);
-        SetMirrorEffect((bool) state["MirrorEffect"]);
+    public void SetModifiers(Dictionary<string, object> state)
+    {
+        SetEyePatch((ModifiersManager.EyePatch)state["EyePatch"]);
+        SetHideWall((ModifiersManager.HideWall)state["HideWall"]);
+        SetMotorRestriction((bool)state["MotorRestriction"]);
+        SetMotorRestrictionUpper((float)state["MotorRestrictionUpper"]);
+        SetMotorRestrictionLower((float)state["MotorRestrictionLower"]);
+        SetMotorspace((ModifiersManager.MotorspaceSize)state["MotorspaceSize"]);
+        SetMirrorEffect((bool)state["MirrorEffect"]);
         SetPhysicalMirror((bool)state["PhysicalMirrorEffect"]);
         SetGeometricMirror((bool)state["GeometricMirrorEffect"]);
         SetControllerOffset((float)state["ControllerOffset"]);
         SetPrismOffset((float)state["PrismOffset"]);
-        SetMainController((ModifiersManager.ControllerSetup) state["ControllerSetup"]);
-        SetControllerEnabled((ModifiersManager.ControllerSetup) state["ControllerSetup"],true);
-        SetPerformanceFeedback((ModifiersManager.PerformanceFeedback) state["PerformanceFeedback"]);
-        SetJudgementType((JudgementType) state["JudgementType"]);
-        SetEmbodiment((ModifiersManager.Embodiment) state["Embodiment"]);
+        SetMainController((ModifiersManager.ControllerSetup)state["ControllerSetup"]);
+        SetControllerEnabled((ModifiersManager.ControllerSetup)state["ControllerSetup"], true);
+        SetPerformanceFeedback((ModifiersManager.PerformanceFeedback)state["PerformanceFeedback"]);
+        SetJudgementType((JudgementType)state["JudgementType"]);
+        SetEmbodiment((ModifiersManager.Embodiment)state["Embodiment"]);
         SetMotorspaceOutOfBoundsSignifier((ModifiersManager.MotorspaceOutOfBoundsSignifier)state["MotorspaceOutOfBoundsSignifier"]);
     }
 
@@ -233,37 +237,45 @@ public class ModifiersManager : MonoBehaviour
         StartCoroutine(WaitForCameraAndUpdate(eyePatch));
     }
 
-    public void SetHideWall(HideWall value) {
+    public void SetHideWall(HideWall value)
+    {
         if (hideWall == value) return;
         hideWall = value;
 
-        loggerNotifier.NotifyLogger("Hide Wall Effect Set "+ value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Hide Wall Effect Set " + value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"HideWall", value}
         });
 
-        if (hideWall == HideWall.Left) {
+        if (hideWall == HideWall.Left)
+        {
             hideWallLeft.SetActive(true);
             hideWallRight.SetActive(false);
             onHideWallSliderChanged();
-        } else if (hideWall == HideWall.Right) {
+        }
+        else if (hideWall == HideWall.Right)
+        {
             hideWallLeft.SetActive(false);
             hideWallRight.SetActive(true);
             onHideWallSliderChanged();
-        } else if (hideWall == HideWall.None) {
+        }
+        else if (hideWall == HideWall.None)
+        {
             hideWallLeft.SetActive(false);
             hideWallRight.SetActive(false);
         }
     }
 
-    public void SetHideWallAmount(float value) {
+    public void SetHideWallAmount(float value)
+    {
         hideWallSlider.value = value;
     }
 
-    public void onHideWallSliderChanged() {
-        var sliderValue = (float) hideWallSlider.value;
-        var highVal = (float) hideWallSlider.maxValue;
-        var lowVal = (float) hideWallSlider.minValue;
+    public void onHideWallSliderChanged()
+    {
+        var sliderValue = (float)hideWallSlider.value;
+        var highVal = (float)hideWallSlider.maxValue;
+        var lowVal = (float)hideWallSlider.minValue;
         hideWallAmount = ((sliderValue - lowVal) / highVal);
         var multiplier = 1 - hideWallAmount;
         var startRange = hideWallHighestStart - hideWallLowestStart;
@@ -277,13 +289,13 @@ public class ModifiersManager : MonoBehaviour
         hideWallRightMat.SetFloat("_FogMaxHeight", newStart);
         hideWallRightMat.SetFloat("_FogMinHeight", newEnd);
 
-        loggerNotifier.NotifyLogger("Hide Wall Amount: "+ hideWallAmount, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Hide Wall Amount: " + hideWallAmount, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"HideWallAmount", hideWallAmount}
         });
     }
 
-    
+
     public void SetMotorRestriction(bool value)
     {
         // motor restriction may need to be "refreshed" when controllers change.
@@ -291,16 +303,17 @@ public class ModifiersManager : MonoBehaviour
         //if (motorRestriction == value) return;
 
         motorRestriction = value;
-        
+
         MotorRestriction restriction = MotorRestriction.none;
-        if (value) {
+        if (value)
+        {
             restriction = MotorRestriction.restrict;
         }
 
         motorSpaceManager.SetMotorRestriction(restriction, motorRestrictionLower, motorRestrictionUpper);
 
         // Raises an Event and updates a PersistentEvent's parameter (in consequence, a PersistentEvent will also be raised)
-        loggerNotifier.NotifyLogger("Motor Restriciton Set "+ value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Motor Restriciton Set " + value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"MotorRestrictionLower", motorRestrictionLower},
             {"MotorRestrictionUpper", motorRestrictionUpper}
@@ -314,9 +327,9 @@ public class ModifiersManager : MonoBehaviour
         if (motorRestrictionUpper == value) return;
 
         motorRestrictionUpper = value;
-        
+
         // Raises an Event and updates a PersistentEvent's parameter (in consequence, a PersistentEvent will also be raised)
-        loggerNotifier.NotifyLogger("Motor Restriciton Upper Set to "+ value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Motor Restriciton Upper Set to " + value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"MotorRestrictionLower", motorRestrictionLower},
             {"MotorRestrictionUpper", motorRestrictionUpper}
@@ -330,9 +343,9 @@ public class ModifiersManager : MonoBehaviour
         if (motorRestrictionLower == value) return;
 
         motorRestrictionLower = value;
-        
+
         // Raises an Event and updates a PersistentEvent's parameter (in consequence, a PersistentEvent will also be raised)
-        loggerNotifier.NotifyLogger("Motor Restriciton Lower Set to "+ value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Motor Restriciton Lower Set to " + value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"MotorRestrictionLower", motorRestrictionLower},
             {"MotorRestrictionUpper", motorRestrictionUpper}
@@ -344,19 +357,27 @@ public class ModifiersManager : MonoBehaviour
     public void SetMotorspace(ModifiersManager.MotorspaceSize size)
     {
         Debug.Log(size);
-        if (size == ModifiersManager.MotorspaceSize.Small) {
+        if (size == ModifiersManager.MotorspaceSize.Small)
+        {
             motorSpaceManager.SetMotorSpaceSmall();
-        } else if (size == ModifiersManager.MotorspaceSize.Medium) {
+        }
+        else if (size == ModifiersManager.MotorspaceSize.Medium)
+        {
             motorSpaceManager.SetMotorSpaceMedium();
-        } else if (size == ModifiersManager.MotorspaceSize.Large) {
+        }
+        else if (size == ModifiersManager.MotorspaceSize.Large)
+        {
             motorSpaceManager.SetMotorSpaceLarge();
-        } else if (size == ModifiersManager.MotorspaceSize.Tiny1)
+        }
+        else if (size == ModifiersManager.MotorspaceSize.Tiny1)
         {
             motorSpaceManager.SetMotorSpaceTiny1();
-        } else if (size == ModifiersManager.MotorspaceSize.Tiny2)
+        }
+        else if (size == ModifiersManager.MotorspaceSize.Tiny2)
         {
             motorSpaceManager.SetMotorSpaceTiny2();
-        } else if (size == ModifiersManager.MotorspaceSize.Tiny3)
+        }
+        else if (size == ModifiersManager.MotorspaceSize.Tiny3)
         {
             motorSpaceManager.SetMotorSpaceTiny3();
         }
@@ -386,7 +407,7 @@ public class ModifiersManager : MonoBehaviour
         UpdateMirrorEffect();
 
         // Raises an Event and updates a PersistentEvent's parameter (in consequence, a PersistentEvent will also be raised)
-        loggerNotifier.NotifyLogger("Mirror Effect Set "+value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Mirror Effect Set " + value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"MirrorEffect", value}
         });
@@ -413,16 +434,23 @@ public class ModifiersManager : MonoBehaviour
         });
     }
 
-    public void UpdateGeometricMirror(bool enable) {
-        if (enable) {
-            if (controllerSetup == ModifiersManager.ControllerSetup.Right) {
+    public void UpdateGeometricMirror(bool enable)
+    {
+        if (enable)
+        {
+            if (controllerSetup == ModifiersManager.ControllerSetup.Right)
+            {
                 mirrorControllerR.SetActive(true);
                 mirrorControllerL.SetActive(false);
-            } else {
+            }
+            else
+            {
                 mirrorControllerL.SetActive(true);
                 mirrorControllerR.SetActive(false);
             }
-        } else {
+        }
+        else
+        {
             mirrorControllerL.SetActive(false);
             mirrorControllerR.SetActive(false);
         }
@@ -440,7 +468,8 @@ public class ModifiersManager : MonoBehaviour
         // Positive X offsets needs a Vector3.forward.
         // Negative X offsets needs a Vector3.back.
         Vector3 direction = Vector3.forward;
-        if (start.x < 0) {
+        if (start.x < 0)
+        {
             direction = Vector3.back;
         }
 
@@ -449,7 +478,7 @@ public class ModifiersManager : MonoBehaviour
         return Quaternion.AngleAxis(angle, axis) * start;
     }
 
-    
+
     public void SetControllerOffset(float value)
     {
 
@@ -464,7 +493,7 @@ public class ModifiersManager : MonoBehaviour
         // This implements a helper function which
         // reads the parents' rotation and compensates for
         // it, when sertting the controller's local position.
-        Vector3 xOffset = new Vector3(controllerOffset*0.1f,0f,0f);
+        Vector3 xOffset = new Vector3(controllerOffset * 0.1f, 0f, 0f);
         Transform controllerParent = rightControllerContainer.parent;
         Vector3 rotatedVector = RotateTowardsUp(xOffset, controllerParent.eulerAngles.y);
         rightControllerContainer.localPosition = rotatedVector;
@@ -472,7 +501,7 @@ public class ModifiersManager : MonoBehaviour
         rightControllerContainer.localPosition = rotatedVector;
         leftControllerContainer.localPosition = rotatedVector;
 
-        loggerNotifier.NotifyLogger("Controller Offset Set "+value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Controller Offset Set " + value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"ControllerOffset", value}
         });
@@ -482,7 +511,7 @@ public class ModifiersManager : MonoBehaviour
 
     public void OnControllerOffsetSliderChanged()
     {
-        var sliderValue = (float) controllerOffsetSlider.value;
+        var sliderValue = (float)controllerOffsetSlider.value;
 
         SetControllerOffset(sliderValue);
     }
@@ -493,7 +522,7 @@ public class ModifiersManager : MonoBehaviour
         prismOffset = value;
         prismOffsetObject.transform.localEulerAngles = new Vector3(0, prismOffset, 0);
 
-        loggerNotifier.NotifyLogger("Prism Offset Set "+value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Prism Offset Set " + value, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"PrismOffset", value}
         });
@@ -503,14 +532,15 @@ public class ModifiersManager : MonoBehaviour
 
     public void OnPrismOffsetSliderChanged()
     {
-        var sliderValue = (float) prismEffectSlider.value;
+        var sliderValue = (float)prismEffectSlider.value;
 
         SetPrismOffset(sliderValue);
     }
 
-    public void SetMainControllerFromString(string controller) {
+    public void SetMainControllerFromString(string controller)
+    {
         Debug.Log("Called");
-        SetMainController((ModifiersManager.ControllerSetup)System.Enum.Parse( typeof(ModifiersManager.ControllerSetup), controller));
+        SetMainController((ModifiersManager.ControllerSetup)System.Enum.Parse(typeof(ModifiersManager.ControllerSetup), controller));
     }
 
     // Sets the main controller. By default it is the right handed one.
@@ -536,11 +566,12 @@ public class ModifiersManager : MonoBehaviour
             UpdateMirrorEffect();
         }
 
-        if (geometricMirrorEffect) {
+        if (geometricMirrorEffect)
+        {
             UpdateGeometricMirror(geometricMirrorEffect);
         }
 
-        loggerNotifier.NotifyLogger("Controller Main Set "+System.Enum.GetName(typeof(ControllerSetup), controllerSetup), EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Controller Main Set " + System.Enum.GetName(typeof(ControllerSetup), controllerSetup), EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"ControllerMain", System.Enum.GetName(typeof(ControllerSetup), controllerSetup)}
         });
@@ -558,7 +589,7 @@ public class ModifiersManager : MonoBehaviour
         {
             controllersList["main"].gameObject.GetComponent<ControllerModifierManager>().EnableMirror(viveCamera.transform, wallReference);
 
-            if (!dualTask) 
+            if (!dualTask)
             {
                 controllersList["second"].gameObject.GetComponent<ControllerModifierManager>().DisableMirror();
             }
@@ -583,6 +614,7 @@ public class ModifiersManager : MonoBehaviour
         bool actionFeedback = false;
         bool operationFeedback = false;
         bool taskFeedback = false;
+        bool actionExpandFeedback = false;
 
         switch (value)
         {
@@ -591,6 +623,9 @@ public class ModifiersManager : MonoBehaviour
                 break;
             case PerformanceFeedback.Action:
                 actionFeedback = true;
+                break;
+            case PerformanceFeedback.ActionExpand:
+                actionExpandFeedback = true;
                 break;
             case PerformanceFeedback.Task:
                 taskFeedback = true;
@@ -616,12 +651,12 @@ public class ModifiersManager : MonoBehaviour
         {
             {"PerformanceFeedback", Enum.GetName(typeof(PerformanceFeedback), value)}
         });
-        
+
         modifierUpdateEvent.Invoke($"PerformanceFeedback", Enum.GetName(typeof(PerformanceFeedback), value));
 
         this.performanceFeedback = value;
 
-        
+
     }
 
     public void SetJudgementType(JudgementType value)
@@ -634,7 +669,7 @@ public class ModifiersManager : MonoBehaviour
         {
             {"JudgementType", Enum.GetName(typeof(JudgementType), value)}
         });
-        
+
         modifierUpdateEvent.Invoke($"JudgementType", Enum.GetName(typeof(JudgementType), value));
 
         this.judgementType = value;
@@ -645,17 +680,17 @@ public class ModifiersManager : MonoBehaviour
     public void SetEmbodiment(Embodiment value)
     {
         if (embodiment == value) return;
-        
+
         embodiment = value;
         // Pass embodiment on to the ControllerModifierManager.
         controllersList["main"].gameObject.GetComponent<ControllerModifierManager>().SetEmbodiment(embodiment);
         controllersList["second"].gameObject.GetComponent<ControllerModifierManager>().SetEmbodiment(embodiment);
 
-        loggerNotifier.NotifyLogger("Embodiment Set "+System.Enum.GetName(typeof(Embodiment), embodiment), EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Embodiment Set " + System.Enum.GetName(typeof(Embodiment), embodiment), EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"Embodiment", System.Enum.GetName(typeof(Embodiment), embodiment)}
         });
-        
+
     }
 
     // Enables/disables a given controller
@@ -673,12 +708,16 @@ public class ModifiersManager : MonoBehaviour
         if (enableRight)
         {
             rightController.Enable();
-            foreach (var obj in rightControllerVisuals) {
+            foreach (var obj in rightControllerVisuals)
+            {
                 obj.SetActive(true);
             }
-        } else {
+        }
+        else
+        {
             rightController.Disable();
-            foreach (var obj in rightControllerVisuals) {
+            foreach (var obj in rightControllerVisuals)
+            {
                 obj.SetActive(false);
             }
         }
@@ -686,29 +725,34 @@ public class ModifiersManager : MonoBehaviour
         if (enableLeft)
         {
             leftController.Enable();
-            foreach (var obj in leftControllerVisuals) {
+            foreach (var obj in leftControllerVisuals)
+            {
                 obj.SetActive(true);
             }
-        } else {
+        }
+        else
+        {
             leftController.Disable();
-            foreach (var obj in leftControllerVisuals) {
+            foreach (var obj in leftControllerVisuals)
+            {
                 obj.SetActive(false);
             }
         }
     }
 
 
-    public void LogState() {
-        loggerNotifier.NotifyLogger("Controller Main Set "+System.Enum.GetName(typeof(ControllerSetup), controllerSetup), EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+    public void LogState()
+    {
+        loggerNotifier.NotifyLogger("Controller Main Set " + System.Enum.GetName(typeof(ControllerSetup), controllerSetup), EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"ControllerMain", System.Enum.GetName(typeof(ControllerSetup), controllerSetup)}
         });
 
-        loggerNotifier.NotifyLogger("Prism Offset Set "+prismOffset, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Prism Offset Set " + prismOffset, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"PrismOffset", prismOffset}
         });
-        loggerNotifier.NotifyLogger("Controller Offset Set "+controllerOffset, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Controller Offset Set " + controllerOffset, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"ControllerOffset", controllerOffset}
         });
@@ -716,30 +760,30 @@ public class ModifiersManager : MonoBehaviour
         {
             {"GeometricMirror", geometricMirrorEffect.ToString()}
         });
-        loggerNotifier.NotifyLogger("Motor Restriciton Lower Set to "+ motorRestrictionLower, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Motor Restriciton Lower Set to " + motorRestrictionLower, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"MotorRestrictionLower", motorRestrictionLower},
             {"MotorRestrictionUpper", motorRestrictionUpper}
         });
-        loggerNotifier.NotifyLogger("Motor Restriciton Upper Set to "+ motorRestrictionUpper, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Motor Restriciton Upper Set to " + motorRestrictionUpper, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"MotorRestrictionLower", motorRestrictionLower},
             {"MotorRestrictionUpper", motorRestrictionUpper}
         });
-        loggerNotifier.NotifyLogger("Motor Restriciton Set "+ motorRestriction, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Motor Restriciton Set " + motorRestriction, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"MotorRestrictionLower", motorRestrictionLower},
             {"MotorRestrictionUpper", motorRestrictionUpper}
         });
-        loggerNotifier.NotifyLogger("Hide Wall Amount: "+ hideWallAmount, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Hide Wall Amount: " + hideWallAmount, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"HideWallAmount", hideWallAmount}
         });
-        loggerNotifier.NotifyLogger("Hide Wall Effect Set "+ hideWall, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Hide Wall Effect Set " + hideWall, EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"HideWall", hideWall}
         });
-        loggerNotifier.NotifyLogger("Embodiment Set "+ System.Enum.GetName(typeof(Embodiment), embodiment), EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Embodiment Set " + System.Enum.GetName(typeof(Embodiment), embodiment), EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"Embodiment", embodiment}
         });
@@ -777,7 +821,7 @@ public class ModifiersManager : MonoBehaviour
             viveCamera.stereoTargetEye = StereoTargetEyeMask.Right;
         }
 
-        loggerNotifier.NotifyLogger("Eye Patch Set "+System.Enum.GetName(typeof(ModifiersManager.EyePatch), value), EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger("Eye Patch Set " + System.Enum.GetName(typeof(ModifiersManager.EyePatch), value), EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
             {"EyePatch", System.Enum.GetName(typeof(ModifiersManager.EyePatch), value)}
         });
@@ -785,5 +829,5 @@ public class ModifiersManager : MonoBehaviour
         modifierUpdateEvent.Invoke("EyePatch", System.Enum.GetName(typeof(ModifiersManager.EyePatch), value));
     }
 
-    
+
 }

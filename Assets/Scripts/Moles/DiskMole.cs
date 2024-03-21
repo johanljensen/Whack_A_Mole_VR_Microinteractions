@@ -58,7 +58,7 @@ public class DiskMole : Mole
     [SerializeField]
     private SpriteRenderer checkmark;
 
-    [SerializeField] 
+    [SerializeField]
     private SpriteRenderer circleOutline;
 
     [SerializeField]
@@ -80,6 +80,11 @@ public class DiskMole : Mole
     private Animation animationPlayer;
     private Coroutine colorAnimation;
     private string playingClip = "";
+
+    [SerializeField]
+    CheckmarkPop checkmarkPopPrefab;
+    [SerializeField]
+    CheckmarkHeatmap checkmarkHeatmapPrefab;
 
     protected override void Start()
     {
@@ -111,16 +116,17 @@ public class DiskMole : Mole
         if (moleType == Mole.MoleType.Target)
         {
             meshMaterial.color = enabledColor;
-            meshMaterial.mainTexture =  textureEnabled;
+            meshMaterial.mainTexture = textureEnabled;
         }
         else if (moleType == Mole.MoleType.DistractorLeft)
         {
             meshMaterial.color = fakeEnabledColor;
-            meshMaterial.mainTexture =  distractorLeftTexture;
-        } else if (moleType == Mole.MoleType.DistractorRight)
+            meshMaterial.mainTexture = distractorLeftTexture;
+        }
+        else if (moleType == Mole.MoleType.DistractorRight)
         {
             meshMaterial.color = fakeEnabledColor;
-            meshMaterial.mainTexture =  distractorRightTexture;
+            meshMaterial.mainTexture = distractorRightTexture;
         }
         base.PlayEnabling();
     }
@@ -129,22 +135,23 @@ public class DiskMole : Mole
     {
         PlaySound(enableSound);
         PlayAnimation("EnableDisable"); // Don't show any feedback to users when an incorrect moles expires
-        meshMaterial.color=disabledColor;
-        meshMaterial.mainTexture=textureDisabled;
+        meshMaterial.color = disabledColor;
+        meshMaterial.mainTexture = textureDisabled;
         base.PlayDisabling();
     }
 
     protected override void PlayMissed()
     {
-        meshMaterial.color=disabledColor;
-        meshMaterial.mainTexture=textureDisabled;
-        if (ShouldPerformanceFeedback()) {
+        meshMaterial.color = disabledColor;
+        meshMaterial.mainTexture = textureDisabled;
+        if (ShouldPerformanceFeedback())
+        {
             PlayAnimation("PopWrongMole"); // Show negative feedback to users when a correct moles expires, to make it clear that they missed it
         }
         base.PlayMissed();
     }
 
-    protected override void PlayHoverEnter() 
+    protected override void PlayHoverEnter()
     {
         Debug.Log("START HOVERING ON MOLE");
         if (moleType == Mole.MoleType.Target)
@@ -157,7 +164,7 @@ public class DiskMole : Mole
         }
     }
 
-    protected override void PlayHoverLeave() 
+    protected override void PlayHoverLeave()
     {
         Debug.Log("STOP HOVERING ON MOLE");
         if (moleType == Mole.MoleType.Target)
@@ -175,28 +182,27 @@ public class DiskMole : Mole
         Debug.Log("MOLE FEEDBACK");
         Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
         PlayAnimation("PopCorrectMole");
-        StartCoroutine(ChangeColorOverTime(enabledColor, colorFeedback, disabledColor, 0.15f, duration-1.5f, feedback, -1f));
+        //StartCoroutine(ChangeColorOverTime(enabledColor, colorFeedback, disabledColor, 0.15f, duration-1.5f, feedback, -1f));
+        CheckmarkHeatmap checkmarkHeat = Instantiate(checkmarkHeatmapPrefab);
+        checkmarkHeat.SetTransform(transform);
+        checkmarkHeat.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback);
     }
 
     protected override void PlayPop(float feedback, float perf)
     {
-        Debug.Log("MOLE POPPED");
-        if (ShouldPerformanceFeedback()) {
-            Debug.Log("DISPLAY CHECKMARK");
-            if (moleType==Mole.MoleType.Target)
+        Debug.Log("MOLE POP");
+        if (ShouldPerformanceFeedback())
+        {
+            Debug.Log("CHECKMARK FEEDBACK");
+            if (moleType == Mole.MoleType.Target)
             {
                 Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
-                bool altEffect = true;
-                if (altEffect)
-                {
-                    StartCoroutine(CircularExpansion(enabledColor, colorFeedback, disabledColor, 0.15f, 0.15f, feedback, perf));
-                }
-                else
-                {
-                    PlayAnimation("PopCorrectMole"); // Show positive feedback to users that shoot a correct moles, to make it clear this is a success
-                    StartCoroutine(ChangeColorOverTime(enabledColor, colorFeedback, disabledColor, 0.15f, 0.15f, feedback, perf));
-                }
+                //PlayAnimation("PopCorrectMole"); // Show positive feedback to users that shoot a correct moles, to make it clear this is a success
+                //StartCoroutine(CircularExpansion(enabledColor, colorFeedback, disabledColor, 0.15f, 0.15f, feedback, perf));
                 meshMaterial.mainTexture = textureDisabled;
+                CheckmarkPop checkmarkPop = Instantiate(checkmarkPopPrefab);
+                checkmarkPop.SetTransform(transform);
+                checkmarkPop.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback, perfText, perf);
             }
             else
             {
@@ -204,10 +210,12 @@ public class DiskMole : Mole
                 meshMaterial.color = disabledColor;
                 meshMaterial.mainTexture = textureDisabled;
             }
-        } else {
-                meshMaterial.color = disabledColor;
-                meshMaterial.mainTexture = textureDisabled;
-	}
+        }
+        else
+        {
+            meshMaterial.color = disabledColor;
+            meshMaterial.mainTexture = textureDisabled;
+        }
         PlaySound(popSound);
         //base.PlayPop(); // we cannot change to popped state, this breaks WAIT:HIT for some reason.
     }
@@ -218,6 +226,7 @@ public class DiskMole : Mole
         meshMaterial.color = disabledColor;
         meshMaterial.mainTexture = textureDisabled;
     }
+    /*
     IEnumerator ChangeColorOverTime(Color colorStart, Color colorFeedback, Color colorEnd, float duration, float waitTime, float feedback, float perf)
     {
         // Debug Info: performance indication
@@ -274,10 +283,10 @@ public class DiskMole : Mole
         transform.localScale = normalSize;
         perfText.SetActive(false);
     }
+    */
 
     IEnumerator CircularExpansion(Color colorStart, Color colorFeedback, Color colorEnd, float duration, float waitTime, float feedback, float perf)
     {
-        Debug.Log("USING EXPERIMENTAL EFFECT");
         // Debug Info: performance indication
         var txt = perfText.GetComponentInChildren<Text>();
         if (perf != -1f)
@@ -302,7 +311,6 @@ public class DiskMole : Mole
             yield return null;
         }
 
-        Color checkmarkOpacity = checkmark.color;
         Color colorFeedbackFaded = new Color(colorFeedback.r, colorFeedback.g, colorFeedback.b, 0);
         while (elapsedTime < duration)
         {
@@ -314,10 +322,9 @@ public class DiskMole : Mole
 
         // Hold the end color for 0.1 seconds
         yield return new WaitForSeconds(waitTime);
+
         circleOutline.color = new Color(circleOutline.color.r, circleOutline.color.g, circleOutline.color.b, 0.0f);
         ChangeColor(colorEnd);
-        checkmarkOpacity.a = 0f; // force  0 opacity at end.
-        checkmark.color = checkmarkOpacity;
         transform.localScale = normalSize;
         perfText.SetActive(false);
     }
@@ -379,9 +386,9 @@ public class DiskMole : Mole
     }
 
     // Ease function, Quart ratio.
-    private float EaseQuartOut (float k) 
+    private float EaseQuartOut(float k)
     {
-        return 1f - ((k -= 1f)*k*k*k);
+        return 1f - ((k -= 1f) * k * k * k);
     }
 
     private IEnumerator TransitionColor(float duration, Color startColor, Color endColor)
@@ -391,8 +398,8 @@ public class DiskMole : Mole
 
         // Generation of a color gradient from the start color to the end color.
         Gradient colorGradient = new Gradient();
-        GradientColorKey[] colorKey = new GradientColorKey[2]{new GradientColorKey(startColor, 0f), new GradientColorKey(endColor, 1f)};
-        GradientAlphaKey[] alphaKey = new GradientAlphaKey[2]{new GradientAlphaKey(startColor.a, 0f), new GradientAlphaKey(endColor.a, 1f)};
+        GradientColorKey[] colorKey = new GradientColorKey[2] { new GradientColorKey(startColor, 0f), new GradientColorKey(endColor, 1f) };
+        GradientAlphaKey[] alphaKey = new GradientAlphaKey[2] { new GradientAlphaKey(startColor.a, 0f), new GradientAlphaKey(endColor.a, 1f) };
         colorGradient.SetKeys(colorKey, alphaKey);
 
         // Playing of the animation. The DiskMole color is interpolated following the easing curve
