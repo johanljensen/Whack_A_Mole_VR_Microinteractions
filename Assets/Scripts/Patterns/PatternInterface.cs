@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Globalization;
+using UnityEditor;
 
 /*
 Class doing the interface between the PatternPlayer and the different classes of the game it needs to interact with.
@@ -267,6 +268,10 @@ public class PatternInterface : MonoBehaviour
     private void SetModifier(Dictionary<string, string> action)
     {
         string tempValue;
+        foreach(KeyValuePair<string, string> thing in action)
+        {
+            Debug.Log(thing.Key + " : " + thing.Value);
+        }
         
         if (action.TryGetValue("EYEPATCH", out tempValue))
         {
@@ -329,7 +334,7 @@ public class PatternInterface : MonoBehaviour
         // TYPE OF JUDGEMENT FEEDBACK : Enum with : None, Operation, Action, Task, All
         if (action.TryGetValue("PERFORMANCEFEEDBACK", out tempValue))
         {
-            modifiersManager.SetPerformanceFeedback((ModifiersManager.PerformanceFeedback)System.Enum.Parse(typeof(ModifiersManager.PerformanceFeedback), tempValue));
+            modifiersManager.SetPerformanceFeedback((PatternFeedback.FeedbackType)System.Enum.Parse(typeof(PatternFeedback.FeedbackType), tempValue));
         }
         if (action.TryGetValue("EMBODIMENT", out tempValue))
         {

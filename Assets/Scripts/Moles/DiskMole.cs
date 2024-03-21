@@ -84,6 +84,8 @@ public class DiskMole : Mole
     [SerializeField]
     CheckmarkPop checkmarkPopPrefab;
     [SerializeField]
+    MoleExplode moleExplodePrefab;
+    [SerializeField]
     CheckmarkHeatmap checkmarkHeatmapPrefab;
 
     protected override void Start()
@@ -191,18 +193,35 @@ public class DiskMole : Mole
     protected override void PlayPop(float feedback, float perf)
     {
         Debug.Log("MOLE POP");
-        if (ShouldPerformanceFeedback())
+        Debug.Log(PatternFeedback.GetFeedbackType());
+        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.Checkmark_Action)
         {
             Debug.Log("CHECKMARK FEEDBACK");
             if (moleType == Mole.MoleType.Target)
             {
                 Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
-                //PlayAnimation("PopCorrectMole"); // Show positive feedback to users that shoot a correct moles, to make it clear this is a success
-                //StartCoroutine(CircularExpansion(enabledColor, colorFeedback, disabledColor, 0.15f, 0.15f, feedback, perf));
                 meshMaterial.mainTexture = textureDisabled;
                 CheckmarkPop checkmarkPop = Instantiate(checkmarkPopPrefab);
                 checkmarkPop.SetTransform(transform);
                 checkmarkPop.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback, perfText, perf);
+            }
+            else
+            {
+                PlayAnimation("PopWrongMole");    // Show negative feedback to users that shoot an incorrect moles, to make it clear this is a fail
+                meshMaterial.color = disabledColor;
+                meshMaterial.mainTexture = textureDisabled;
+            }
+        }
+        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleExplode_Action)
+        {
+            Debug.Log("EXPLODE FEEDBACK");
+            if (moleType == Mole.MoleType.Target)
+            {
+                Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
+                meshMaterial.mainTexture = textureDisabled;
+                MoleExplode moleExplosion = Instantiate(moleExplodePrefab);
+                moleExplosion.SetTransform(transform);
+                moleExplosion.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback, perfText, perf);
             }
             else
             {
@@ -284,50 +303,6 @@ public class DiskMole : Mole
         perfText.SetActive(false);
     }
     */
-
-    IEnumerator CircularExpansion(Color colorStart, Color colorFeedback, Color colorEnd, float duration, float waitTime, float feedback, float perf)
-    {
-        // Debug Info: performance indication
-        var txt = perfText.GetComponentInChildren<Text>();
-        if (perf != -1f)
-        {
-            perfText.SetActive(true);
-            txt.text = perf.ToString("0.00");
-        }
-
-        float popScale = feedback + 5.0f;
-        // float popScale = (feedback * 0.45f) + 1.05f; // other possibility
-        Debug.Log("PopScale: " + popScale);
-        Vector3 normalSize = transform.localScale;
-        Vector3 feedbackSize = transform.localScale * popScale;
-        checkmark.color = colorFeedback;
-        float elapsedTime = 0;
-        circleOutline.color = new Color(circleOutline.color.r, circleOutline.color.g, circleOutline.color.b, colorFeedback.a);
-        while (elapsedTime < duration * 0.7f)
-        {
-            transform.localScale = Vector3.Lerp(normalSize, feedbackSize, (elapsedTime / duration));
-            meshMaterial.color = Color.Lerp(colorStart, colorFeedback, (elapsedTime / duration));
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        Color colorFeedbackFaded = new Color(colorFeedback.r, colorFeedback.g, colorFeedback.b, 0);
-        while (elapsedTime < duration)
-        {
-            transform.localScale = Vector3.Lerp(normalSize, feedbackSize, (elapsedTime / duration));
-            meshMaterial.color = Color.Lerp(colorStart, colorFeedbackFaded, (elapsedTime / duration));
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Hold the end color for 0.1 seconds
-        yield return new WaitForSeconds(waitTime);
-
-        circleOutline.color = new Color(circleOutline.color.r, circleOutline.color.g, circleOutline.color.b, 0.0f);
-        ChangeColor(colorEnd);
-        transform.localScale = normalSize;
-        perfText.SetActive(false);
-    }
 
     // Plays a sound.
     private void PlaySound(AudioClip audioClip)

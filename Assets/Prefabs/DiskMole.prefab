@@ -347,6 +347,8 @@ MonoBehaviour:
   perfText: {fileID: 8688357073211435990}
   checkmarkPopPrefab: {fileID: 7115778307692774489, guid: 456b61f0978adbf4d90aca0339d1e92a,
     type: 3}
+  moleExplodePrefab: {fileID: 1875343840636067310, guid: fffb5d2fd945f5c4795efaec8f4cb5d1,
+    type: 3}
   checkmarkHeatmapPrefab: {fileID: 8020456521231200281, guid: 11b84b980f1512244ae6f9610ceb5805,
     type: 3}
 --- !u!82 &5964598934260530701

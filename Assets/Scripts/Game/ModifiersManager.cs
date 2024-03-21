@@ -27,7 +27,7 @@ public class ModifiersManager : MonoBehaviour
     public enum Embodiment { Hands, Cursor, Off };
     public enum MotorspaceSize { Tiny1, Tiny2, Tiny3, Small, Medium, Large };
     public enum MotorspaceOutOfBoundsSignifier { None, DynamicCenter, StaticPointing, DynamicCenterReversed };
-    public enum PerformanceFeedback { None, Operation, Action, Task, All, ActionExpand };
+    public enum PerformanceFeedback { None, Operation, Checkmark_Action, MoleExplode_Action, Task, All, ActionExpand };
     public enum EyePatch { Left, None, Right };
     public enum HideWall { Left, None, Right };
 
@@ -116,7 +116,7 @@ public class ModifiersManager : MonoBehaviour
     private EyePatch eyePatch = EyePatch.None;
     private HideWall hideWall = HideWall.None;
     private ControllerSetup controllerSetup = ControllerSetup.Right;
-    private ModifiersManager.PerformanceFeedback performanceFeedback = PerformanceFeedback.All;
+    private PatternFeedback.FeedbackType performanceFeedback = PatternFeedback.FeedbackType.None;
     private JudgementType judgementType = JudgementType.MaxSpeed;
     private bool mirrorEffect;
     private bool physicalMirrorEffect;
@@ -223,7 +223,7 @@ public class ModifiersManager : MonoBehaviour
         SetPrismOffset((float)state["PrismOffset"]);
         SetMainController((ModifiersManager.ControllerSetup)state["ControllerSetup"]);
         SetControllerEnabled((ModifiersManager.ControllerSetup)state["ControllerSetup"], true);
-        SetPerformanceFeedback((ModifiersManager.PerformanceFeedback)state["PerformanceFeedback"]);
+        SetPerformanceFeedback((PatternFeedback.FeedbackType)state["PerformanceFeedback"]);
         SetJudgementType((JudgementType)state["JudgementType"]);
         SetEmbodiment((ModifiersManager.Embodiment)state["Embodiment"]);
         SetMotorspaceOutOfBoundsSignifier((ModifiersManager.MotorspaceOutOfBoundsSignifier)state["MotorspaceOutOfBoundsSignifier"]);
@@ -609,29 +609,30 @@ public class ModifiersManager : MonoBehaviour
         }
     }
 
-    public void SetPerformanceFeedback(PerformanceFeedback value)
+    public void SetPerformanceFeedback(PatternFeedback.FeedbackType value)
     {
         bool actionFeedback = false;
         bool operationFeedback = false;
         bool taskFeedback = false;
         bool actionExpandFeedback = false;
 
+        Debug.Log("SET FEEDBACKTYPE: " + value);
+        PatternFeedback.SetFeedbackType(value);
+        Debug.Log(PatternFeedback.GetFeedbackType());
+
         switch (value)
         {
-            case PerformanceFeedback.Operation:
+            case PatternFeedback.FeedbackType.CursorTrail_Operation:
                 operationFeedback = true;
                 break;
-            case PerformanceFeedback.Action:
+            case PatternFeedback.FeedbackType.Checkmark_Action:
                 actionFeedback = true;
                 break;
-            case PerformanceFeedback.ActionExpand:
+            case PatternFeedback.FeedbackType.MoleExplode_Action:
+                actionFeedback = true;
+                break;
+            case PatternFeedback.FeedbackType.Heatmap_Task:
                 actionExpandFeedback = true;
-                break;
-            case PerformanceFeedback.Task:
-                taskFeedback = true;
-                break;
-            case PerformanceFeedback.All:
-                actionFeedback = operationFeedback = taskFeedback = true;
                 break;
         }
 
