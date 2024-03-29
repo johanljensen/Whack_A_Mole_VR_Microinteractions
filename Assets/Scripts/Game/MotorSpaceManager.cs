@@ -242,36 +242,6 @@ public class MotorSpaceManager : MonoBehaviour
         }
     }
 
-    internal void SetTaskPerformanceFeedback(bool val)
-    {
-        if (motorspace == ActiveMotorSpace.Right)
-            MotorSpaceRight.GetCurrentController().GetComponent<Pointer>().SetTaskPerformanceFeedback(val);
-        else if (motorspace == ActiveMotorSpace.Left)
-            MotorSpaceLeft.GetCurrentController().GetComponent<Pointer>().SetTaskPerformanceFeedback(val);
-        else if (motorspace == ActiveMotorSpace.Both)
-        {
-            MotorSpaceRight.GetCurrentController().GetComponent<Pointer>().SetTaskPerformanceFeedback(val);
-            MotorSpaceLeft.GetCurrentController().GetComponent<Pointer>().SetTaskPerformanceFeedback(val);
-        }
-    }
-
-    internal void SetOperationPerformanceFeedback(bool v, bool withText)
-    {
-        if (motorspace == ActiveMotorSpace.Right) {
-            MotorSpaceRight.SetOperationPerformanceFeedback(v, withText);
-            MotorSpaceRight.GetCurrentController().GetComponent<Pointer>().SetOperationPerformanceFeedback(v);
-        } else if (motorspace == ActiveMotorSpace.Left) {
-            MotorSpaceLeft.SetOperationPerformanceFeedback(v, withText);
-            MotorSpaceLeft.GetCurrentController().GetComponent<Pointer>().SetOperationPerformanceFeedback(v);
-        } else if (motorspace == ActiveMotorSpace.Both)
-        {
-            MotorSpaceRight.SetOperationPerformanceFeedback(v, withText);
-            MotorSpaceRight.GetCurrentController().GetComponent<Pointer>().SetOperationPerformanceFeedback(v);
-            MotorSpaceLeft.SetOperationPerformanceFeedback(v, withText);
-            MotorSpaceLeft.GetCurrentController().GetComponent<Pointer>().SetOperationPerformanceFeedback(v);
-        }
-    }
-
     public void SetMotorSpace(MotorSpaceInfo m) {
         bool mRState = MotorSpaceRight.gameObject.activeSelf;
         bool mLState = MotorSpaceLeft.gameObject.activeSelf;

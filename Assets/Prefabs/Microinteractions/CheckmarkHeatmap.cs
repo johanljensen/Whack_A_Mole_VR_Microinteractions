@@ -16,7 +16,6 @@ public class CheckmarkHeatmap : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Made checkmark prefab instance");
         if(checkmark == null || circleOutline == null)
         {
             Debug.LogError("ERROR: Checkmark sprite references not set");
@@ -25,24 +24,20 @@ public class CheckmarkHeatmap : MonoBehaviour
 
     public void SetTransform(Transform moleTransform)
     {
-        Debug.Log("Set checkmark position");
         transform.parent = moleTransform;
         transform.position = moleTransform.position + positionOffset;
     }
 
     public void StartFeedback(Color enabledColor, Color colorFeedback, Color disabledColor, Material meshMaterial, float duration, float waitTime, float feedback)
     {
-        Debug.Log("Start Checkmark effect");
         StartCoroutine(ChangeColorOverTime(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback));
     }
 
     IEnumerator ChangeColorOverTime(Color colorStart, Color colorFeedback, Color colorEnd, Material meshMaterial, float duration, float waitTime, float feedback)
     {
-        Debug.Log("Coroutine GO");
-
         float popScale = feedback + 1.0f;
         // float popScale = (feedback * 0.45f) + 1.05f; // other possibility
-        Debug.Log("PopScale: " + popScale);
+        //Debug.Log("PopScale: " + popScale);
         Vector3 normalSize = transform.localScale;
         Vector3 feedbackSize = transform.localScale * popScale;
         checkmark.color = colorFeedback;
@@ -56,6 +51,7 @@ public class CheckmarkHeatmap : MonoBehaviour
             yield return null;
         }
 
+        yield break;
         // Hold the end color for 0.1 seconds
         yield return new WaitForSeconds(waitTime);
         // Then transition back to the start color

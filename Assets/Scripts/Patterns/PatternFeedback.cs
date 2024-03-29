@@ -8,9 +8,19 @@ public static class PatternFeedback
     {
         None,
         CursorTrail_Operation,
-        Checkmark_Action,
+        CorrectingArrow_Operation,
+        GuidingWhistle_Operation,
+        OutlineAnimation_Operation,
+        OutlineLoading_Action,
+        MolePulses_Operation,
         MoleExplode_Action,
-        Heatmap_Task
+        MoleFill_Action,
+        CheckmarkPop_Action,
+        MoleDepleted_Action,
+        ShootToNext_Action,
+        HeatmapOrder_Task,
+        HeatmapChart_Task,
+        HeatmapTier_Task
     }
 
     private static FeedbackType selectedFeedback = FeedbackType.None;
@@ -24,4 +34,32 @@ public static class PatternFeedback
     {
         return selectedFeedback;
     }
+
+
+    private static bool vibrateController = false;
+    public static void SetShouldVibrateController(bool setState)
+    {  vibrateController = setState; }
+    public static bool ShouldVibrateController()
+    { return vibrateController; }
+
+
+    private static bool playAudio = false;
+    public static void SetShouldPlaySoundEffect(bool setState)
+    { playAudio = setState; }
+    public static bool ShouldPlaySoundEffect()
+    { return playAudio; }
+
+
+    private static bool showPerformanceText = false;
+    public static void SetShouldShowPerformanceText(bool setState)
+    { showPerformanceText = setState; }
+    public static bool ShouldShowPerformanceText()
+    { return showPerformanceText; }
+
+
+    private static bool giveNegativeFeedback = false;
+    public static void SetShouldGiveNegativeFeedback(bool setState)
+    { giveNegativeFeedback = setState; }
+    public static bool ShouldGiveNegativeFeedback()
+    { return giveNegativeFeedback; }
 }

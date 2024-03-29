@@ -81,12 +81,25 @@ public class DiskMole : Mole
     private Coroutine colorAnimation;
     private string playingClip = "";
 
+    [Header("Microinteraction prefabs")]
     [SerializeField]
     CheckmarkPop checkmarkPopPrefab;
     [SerializeField]
     MoleExplode moleExplodePrefab;
     [SerializeField]
     CheckmarkHeatmap checkmarkHeatmapPrefab;
+    [SerializeField]
+    OutlineAnimation outlineAnimationPrefab;
+    [SerializeField]
+    MolePulses molePulsesPrefab;
+    [SerializeField]
+    MoleFill moleFillPrefab;
+    [SerializeField]
+    OutlineLoading outlineLoadingPrefab;
+    [SerializeField]
+    CorrectingArrow correctingArrowPrefab;
+    [SerializeField]
+    GuidingWhistle guidingWhistlePrefab;
 
     protected override void Start()
     {
@@ -112,6 +125,8 @@ public class DiskMole : Mole
 
     protected override void PlayEnabling()
     {
+        Debug.Log("Mole enabled");
+
         PlaySound(enableSound);
         PlayAnimation("EnableDisable");
 
@@ -131,31 +146,63 @@ public class DiskMole : Mole
             meshMaterial.mainTexture = distractorRightTexture;
         }
         base.PlayEnabling();
+
+        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MolePulses_Operation)
+        {
+            //Spawn the prefab that makes pulses from the mole's position
+            MolePulses molePulses = Instantiate(molePulsesPrefab);
+            molePulses.SetTransform(transform);
+            molePulses.StartPulseEffect();
+        }
+        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.OutlineAnimation_Operation)
+        {
+            //Spawn the prefab that has an animated outline displaying over the regular outline
+        }
+        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.GuidingWhistle_Operation)
+        {
+            //Spawn the prefab that plays a directional tune based on mole position vs center of head orientation
+        }
+        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.CorrectingArrow_Operation)
+        {
+            //Spawn the prefab that detects cursor movement direction and manages arrow
+            CorrectingArrow correctionArrow = FindObjectOfType<CorrectingArrow>();
+            if(correctionArrow == null)
+            {
+                correctionArrow = Instantiate(correctingArrowPrefab);
+                correctionArrow.StartArrowEffect();
+            }
+            correctionArrow.UpdateActiveMole(this);
+        }
+        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.ShootToNext_Action)
+        {
+            //Spawn the visual effect at the previous mole and make it travel to the new mole
+        }
     }
 
     protected override void PlayDisabling()
     {
+        Debug.Log("Mole disabled");
         PlaySound(enableSound);
         PlayAnimation("EnableDisable"); // Don't show any feedback to users when an incorrect moles expires
         meshMaterial.color = disabledColor;
         meshMaterial.mainTexture = textureDisabled;
         base.PlayDisabling();
+
+        StopContinuousMicrointeraction();
     }
 
     protected override void PlayMissed()
     {
         meshMaterial.color = disabledColor;
         meshMaterial.mainTexture = textureDisabled;
-        if (ShouldPerformanceFeedback())
-        {
-            PlayAnimation("PopWrongMole"); // Show negative feedback to users when a correct moles expires, to make it clear that they missed it
-        }
+        
+        PlayAnimation("PopWrongMole"); // Show negative feedback to users when a correct moles expires, to make it clear that they missed it
         base.PlayMissed();
     }
 
     protected override void PlayHoverEnter()
     {
-        Debug.Log("START HOVERING ON MOLE");
+        //Debug.Log("START HOVERING ON MOLE");
         if (moleType == Mole.MoleType.Target)
         {
             meshMaterial.color = hoverColor;
@@ -181,7 +228,7 @@ public class DiskMole : Mole
 
     public override void PlayFeedback(float feedback, float duration)
     {
-        Debug.Log("MOLE FEEDBACK");
+        //Debug.Log("MOLE FEEDBACK");
         Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
         PlayAnimation("PopCorrectMole");
         //StartCoroutine(ChangeColorOverTime(enabledColor, colorFeedback, disabledColor, 0.15f, duration-1.5f, feedback, -1f));
@@ -192,9 +239,9 @@ public class DiskMole : Mole
 
     protected override void PlayPop(float feedback, float perf)
     {
-        Debug.Log("MOLE POP");
+        //Debug.Log("MOLE POP");
         Debug.Log(PatternFeedback.GetFeedbackType());
-        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.Checkmark_Action)
+        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.CheckmarkPop_Action)
         {
             Debug.Log("CHECKMARK FEEDBACK");
             if (moleType == Mole.MoleType.Target)
@@ -230,6 +277,11 @@ public class DiskMole : Mole
                 meshMaterial.mainTexture = textureDisabled;
             }
         }
+        else if(PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleDepleted_Action)
+        {
+            meshMaterial.mainTexture = textureDisabled;
+            meshMaterial.color = feedbackLowColor;
+        }
         else
         {
             meshMaterial.color = disabledColor;
@@ -237,6 +289,8 @@ public class DiskMole : Mole
         }
         PlaySound(popSound);
         //base.PlayPop(); // we cannot change to popped state, this breaks WAIT:HIT for some reason.
+
+        StopContinuousMicrointeraction();
     }
 
     protected override void PlayReset()
@@ -245,6 +299,18 @@ public class DiskMole : Mole
         meshMaterial.color = disabledColor;
         meshMaterial.mainTexture = textureDisabled;
     }
+
+    private void StopContinuousMicrointeraction()
+    {
+        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MolePulses_Operation)
+        {
+            meshMaterial.mainTexture = textureDisabled;
+            meshMaterial.color = disabledColor;
+            MolePulses pulses = GetComponentInChildren<MolePulses>();
+            Destroy(pulses.gameObject);
+        }
+    }
+
     /*
     IEnumerator ChangeColorOverTime(Color colorStart, Color colorFeedback, Color colorEnd, float duration, float waitTime, float feedback, float perf)
     {

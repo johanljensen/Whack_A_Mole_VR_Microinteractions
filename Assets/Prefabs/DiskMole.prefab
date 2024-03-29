@@ -351,6 +351,18 @@ MonoBehaviour:
     type: 3}
   checkmarkHeatmapPrefab: {fileID: 8020456521231200281, guid: 11b84b980f1512244ae6f9610ceb5805,
     type: 3}
+  outlineAnimationPrefab: {fileID: 3005285751441401387, guid: a17d002be6311074db39c565c38eef0c,
+    type: 3}
+  molePulsesPrefab: {fileID: 757709147224339998, guid: 2380e61855b609d479cee6537f29f008,
+    type: 3}
+  moleFillPrefab: {fileID: -6079817104957109867, guid: 27ad24df8fcda3645a2e8700aea2fbae,
+    type: 3}
+  outlineLoadingPrefab: {fileID: 4907282690430122002, guid: 27cd6766c9608434ca4ebc627ee33ede,
+    type: 3}
+  correctingArrowPrefab: {fileID: 4134856590232747642, guid: 7e8ab0a0b8e7ca8459b894ffeb39383c,
+    type: 3}
+  guidingWhistlePrefab: {fileID: 632395877438986163, guid: ac9dfdc71090f9a4cba3acf5d5a628de,
+    type: 3}
 --- !u!82 &5964598934260530701
 AudioSource:
   m_ObjectHideFlags: 0

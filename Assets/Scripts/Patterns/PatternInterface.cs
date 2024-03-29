@@ -237,6 +237,7 @@ public class PatternInterface : MonoBehaviour
     // Spawns a Mole
     private void SetFeedback(string time)
     {
+        Debug.Log("yes1");
         wallManager.ShowTaskFeedback(ParseFloat(time));
     }
 

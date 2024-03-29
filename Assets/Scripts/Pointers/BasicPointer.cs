@@ -66,7 +66,7 @@ public class BasicPointer : Pointer
                 float v = Input.GetAxisRaw("Vertical");
                 float h = Input.GetAxisRaw("Horizontal");
                 float mouseSpeed = 1;
-                float keyboardSpeed = 0.15f;
+                float keyboardSpeed = 0.4f;
 
                 if (Input.GetKey(KeyCode.LeftAlt))
                 {
@@ -88,7 +88,7 @@ public class BasicPointer : Pointer
 
     public override void ShowTaskFeedback(float duration, List<(int id, float val)> molePerf, float animationDelay)
     {
-        if (!performanceFeedbackTask) { return; }
+        if (PatternFeedback.GetFeedbackType() != PatternFeedback.FeedbackType.HeatmapOrder_Task) { return; }
         StartCoroutine(WaitShowTaskFeedback(duration, molePerf, animationDelay));
     }
     
@@ -166,8 +166,17 @@ public class BasicPointer : Pointer
                         dwellduration += Time.deltaTime;
                         dwellTimer = dwellTimer + 0.1f;
 
-                    Debug.Log("SHOOTING MOLE:" + dwellTimer + " : " + dwellTime);
-                    if (dwellTimer > dwellTime)
+                        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleFill_Action)
+                        {
+                            //Spawn or update the animation of the mole's outline being filled up like a progress bar
+                        }
+                        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleFill_Action)
+                        {
+                            //Spawn or update the animation of the mole being filled up from the center
+                        }
+
+                        //Debug.Log("SHOOTING MOLE:" + dwellTimer + " : " + dwellTime);
+                        if (dwellTimer > dwellTime)
                         {
                             pointerShootOrder++;
                             loggerNotifier.NotifyLogger(overrideEventParameters: new Dictionary<string, object>(){
@@ -244,7 +253,7 @@ public class BasicPointer : Pointer
     }
 
     private void OperationFeedback() {
-        if (!performanceFeedbackOperation) return;
+        if (!PatternFeedback.ShouldVibrateController()) return;
 
         if (pulseClock > 0.06) {
             float val = performanceManager.GetInstantJudgement(controllerName);
@@ -263,7 +272,7 @@ public class BasicPointer : Pointer
         if (correctHit) newColor = shootColor;
         else newColor = badShootColor;
 
-        if (!performancefeedback)
+        if (!PatternFeedback.ShouldGiveNegativeFeedback())
         {
             // don't show badShootColor if performance feedback is disabled.
             newColor = shootColor;

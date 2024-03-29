@@ -59,6 +59,9 @@ public class WallManager : MonoBehaviour
     [SerializeField]
     private MotorSpaceManager motorspaceManager;
 
+    [SerializeField]
+    private HeatmapHandler heatmapHandler;
+
     [Header("Default Wall Settings")]
     [SerializeField]
     private WallSettings defaultWall = new WallSettings();
@@ -132,8 +135,6 @@ public class WallManager : MonoBehaviour
     private int moleCount = 0;
     private int spawnOrder = 0;
     private bool wallVisible = true;
-    private bool performanceFeedbackAction = true;
-    private bool performanceFeedbackTask = true;
     private bool performanceText = false;
 
     // Wall boundaries
@@ -424,29 +425,16 @@ public class WallManager : MonoBehaviour
         return stateUpdateEvent;
     }
 
-    public void SetActionPerformanceFeedback(bool perf, bool withText)
-    {
-        performanceFeedbackAction = perf;
-        performanceText = withText;
-        if (moles.Count > 0)
-        {
-            foreach (Mole mole in moles.Values)
-            {
-                mole.SetPerformanceFeedback(performanceFeedbackAction, performanceText);
-            }
-        }
-    }
-
-    public void SetTaskPerformanceFeedback(bool perf)
-    {
-        performanceFeedbackTask = perf;
-    }
-
     public void ShowTaskFeedback(float duration)
     {
-        if (!performanceFeedbackTask) { return; }
+        Debug.Log("Yes2");
+        if(heatmapHandler == null)
+        {
+            heatmapHandler = gameObject.AddComponent<HeatmapHandler>();
+        }
+
         Debug.Log("ShowTaskFeedback called");
-        Debug.Log("moles.count: " +  moles.Count.ToString());
+        Debug.Log("moles.count: " + moles.Count.ToString());
 
         // obtain perfData from performance manager
         PerfData perfL = performanceManager.GetPerfData(ControllerName.Left);
@@ -455,45 +443,8 @@ public class WallManager : MonoBehaviour
         // Ordered list of moleIDs and their performance value.
         List<(int id, float val)> molePerf = new List<(int id, float val)>();
 
-
-        // TODO: Currently mole performance is just averaged across both controllers.
-        // The number of shots go from 1 to max number. if maxShot is less than 1, no moles were shot.
-        if (perfR.maxShot < 1) return;
-        
-        // perfR.maxShot and perfL.maxShot are the same value.
-        for (int i = 1; i <= perfR.maxShot; i++) {
-            List<float> perfs = new List<float>();
-
-            int id = -1;
-            if (perfR.moleShootOrder.ContainsKey(i)) {
-                id = perfR.moleShootOrder[i];
-                perfs.AddRange(perfR.lastJudgesByMole[id]);
-            }
-            if (perfL.moleShootOrder.ContainsKey(i)) {
-                id = perfL.moleShootOrder[i];
-                perfs.AddRange(perfL.lastJudgesByMole[id]);
-            }
-            if (perfs.Count > 0) {
-                (int id, float val) perf = (id, perfs.Average());
-                molePerf.Add(perf);
-            }
-        }
-
-        StartCoroutine(WaitShowTaskFeedback(duration, molePerf, 0.15f));
+        heatmapHandler.ProcessTaskHeatmap(moles, perfL, perfR, molePerf, duration, soundManager);
         motorspaceManager.ShowTaskFeedback(duration, molePerf, 0.15f);
-    }
-
-    private IEnumerator WaitShowTaskFeedback(float duration, List<(int id, float val)> molePerf, float animationDelay) {
-        float timeSpent = 0f;
-
-        foreach (var fb in molePerf) {
-            if (fb.id != -1) {
-                moles[fb.id].PlayFeedback(fb.val, duration-timeSpent);
-                soundManager.PlaySoundWithPitch(gameObject, SoundManager.Sound.greenMoleHit, fb.val);
-                timeSpent += animationDelay;
-                yield return new WaitForSeconds(animationDelay);
-            }
-        }
     }
 
     // Returns a random, inactive Mole. Can block the game if no Mole can be found. May need to be put in a coroutine.
@@ -570,7 +521,6 @@ public class WallManager : MonoBehaviour
                 int moleId = GetMoleId(x, y);
                 mole.SetId(moleId);
                 mole.SetNormalizedIndex(GetnormalizedIndex(x, y));
-                mole.SetPerformanceFeedback(performanceFeedbackAction, performanceText);
                 mole.transform.localScale = moleScale;
                 moles.Add(moleId, mole);
 

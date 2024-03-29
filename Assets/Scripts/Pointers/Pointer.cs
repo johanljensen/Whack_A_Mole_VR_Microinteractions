@@ -78,9 +78,6 @@ public abstract class Pointer : MonoBehaviour
 
     protected LineRenderer laser;
 
-    protected bool performanceFeedbackOperation = true;
-    protected bool performanceFeedbackTask = true;
-    protected bool performancefeedback = true;
     protected bool performanceText = false;
 
     [SerializeField]
@@ -195,22 +192,6 @@ public abstract class Pointer : MonoBehaviour
         {
             Disable();
         }
-    }
-
-    public void SetOperationPerformanceFeedback(bool perf)
-    {
-        performanceFeedbackOperation = perf;
-    }
-
-    public void SetTaskPerformanceFeedback(bool perf)
-    {
-        performanceFeedbackTask = perf;
-    }
-
-    public void SetActionPerformanceFeedback(bool perf, bool withText)
-    {
-        performancefeedback = perf;
-        performanceText = withText;
     }
 
     // Enables the pointer
@@ -337,7 +318,7 @@ public abstract class Pointer : MonoBehaviour
     // and raises a "Mole Missed" event.
     protected virtual void Shoot(RaycastHit hit, float dwellduration = 0f)
     {
-        Debug.Log("SHOT MOLE");
+        //Debug.Log("SHOT MOLE");
         Mole mole;
 
         state = States.CoolingDown;
@@ -362,7 +343,7 @@ public abstract class Pointer : MonoBehaviour
                 if (moleAnswer == Mole.MolePopAnswer.Ok)
                 {
                     PlayShoot(moleAnswer == Mole.MolePopAnswer.Ok);
-                    if (performancefeedback)
+                    if (PatternFeedback.ShouldVibrateController())
                     {
                         soundManager.PlaySoundWithPitch(gameObject, SoundManager.Sound.greenMoleHit, feedback);
                         Pulse(duration:0.05f, frequency:100, amplitude:feedback * 35);    
@@ -375,7 +356,7 @@ public abstract class Pointer : MonoBehaviour
                 else if (moleAnswer == Mole.MolePopAnswer.Fake)
                 {
                     PlayShoot(moleAnswer == Mole.MolePopAnswer.Ok);
-                    if (performancefeedback)
+                    if (PatternFeedback.ShouldGiveNegativeFeedback())
                     {
                         soundManager.PlaySound(gameObject, SoundManager.Sound.redMoleHit);
                     }
@@ -392,7 +373,7 @@ public abstract class Pointer : MonoBehaviour
                 return;
             }
             RaiseMoleMissedEvent(hit.point);
-            if (performancefeedback)
+            if (PatternFeedback.ShouldGiveNegativeFeedback())
             {
                 soundManager.PlaySound(gameObject, SoundManager.Sound.missedMole);
             }

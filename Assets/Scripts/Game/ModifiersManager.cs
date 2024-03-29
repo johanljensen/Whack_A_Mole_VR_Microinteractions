@@ -27,7 +27,6 @@ public class ModifiersManager : MonoBehaviour
     public enum Embodiment { Hands, Cursor, Off };
     public enum MotorspaceSize { Tiny1, Tiny2, Tiny3, Small, Medium, Large };
     public enum MotorspaceOutOfBoundsSignifier { None, DynamicCenter, StaticPointing, DynamicCenterReversed };
-    public enum PerformanceFeedback { None, Operation, Checkmark_Action, MoleExplode_Action, Task, All, ActionExpand };
     public enum EyePatch { Left, None, Right };
     public enum HideWall { Left, None, Right };
 
@@ -611,49 +610,17 @@ public class ModifiersManager : MonoBehaviour
 
     public void SetPerformanceFeedback(PatternFeedback.FeedbackType value)
     {
-        bool actionFeedback = false;
-        bool operationFeedback = false;
-        bool taskFeedback = false;
-        bool actionExpandFeedback = false;
-
         Debug.Log("SET FEEDBACKTYPE: " + value);
         PatternFeedback.SetFeedbackType(value);
         Debug.Log(PatternFeedback.GetFeedbackType());
 
-        switch (value)
-        {
-            case PatternFeedback.FeedbackType.CursorTrail_Operation:
-                operationFeedback = true;
-                break;
-            case PatternFeedback.FeedbackType.Checkmark_Action:
-                actionFeedback = true;
-                break;
-            case PatternFeedback.FeedbackType.MoleExplode_Action:
-                actionFeedback = true;
-                break;
-            case PatternFeedback.FeedbackType.Heatmap_Task:
-                actionExpandFeedback = true;
-                break;
-        }
-
-        bool withText = performanceFeedbackText;
-        // Apply values to all modifiers
-        wallManager.SetActionPerformanceFeedback(actionFeedback, withText);
-        rightController.SetActionPerformanceFeedback(actionFeedback, withText);
-        leftController.SetActionPerformanceFeedback(actionFeedback, withText);
-
-        // Task changes
-        wallManager.SetTaskPerformanceFeedback(taskFeedback);
-        motorSpaceManager.SetTaskPerformanceFeedback(taskFeedback);
-        motorSpaceManager.SetOperationPerformanceFeedback(operationFeedback, withText);
-
         // Raises an Event and updates a PersistentEvent's parameter (in consequence, a PersistentEvent will also be raised)
-        loggerNotifier.NotifyLogger($"Performance Feedback Set {Enum.GetName(typeof(PerformanceFeedback), value)}", EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger($"Performance Feedback Set {Enum.GetName(typeof(PatternFeedback.FeedbackType), value)}", EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
-            {"PerformanceFeedback", Enum.GetName(typeof(PerformanceFeedback), value)}
+            {"PerformanceFeedback", Enum.GetName(typeof(PatternFeedback.FeedbackType), value)}
         });
 
-        modifierUpdateEvent.Invoke($"PerformanceFeedback", Enum.GetName(typeof(PerformanceFeedback), value));
+        modifierUpdateEvent.Invoke($"PerformanceFeedback", Enum.GetName(typeof(PatternFeedback.FeedbackType), value));
 
         this.performanceFeedback = value;
 
