@@ -56,6 +56,12 @@ public class BasicPointer : Pointer
     }
     */
 
+    MicrointeractionManager microManager;
+    private void Awake()
+    {
+        microManager = MicrointeractionManager.GetInstance();
+    }
+
     public void Update()
     {
         if (Input.GetKey(KeyCode.LeftControl))
@@ -166,7 +172,10 @@ public class BasicPointer : Pointer
                         dwellduration += Time.deltaTime;
                         dwellTimer = dwellTimer + 0.1f;
 
-                        MicrointeractionManager.GetInstance().MicrointeractionMolePopProgress(mole, dwellTime, dwellTimer);
+                        if (microManager != null)
+                        {
+                            microManager.MicrointeractionMolePopProgress(mole, dwellTime, dwellTimer);
+                        }
 
                         //Debug.Log("SHOOTING MOLE:" + dwellTimer + " : " + dwellTime);
                         if (dwellTimer > dwellTime)

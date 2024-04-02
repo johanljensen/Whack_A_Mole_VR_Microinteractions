@@ -81,7 +81,7 @@ public class DiskMole : Mole
     private Coroutine colorAnimation;
     private string playingClip = "";
 
-
+    MicrointeractionManager microManager;
     [SerializeField]
     CheckmarkHeatmap checkmarkHeatmapPrefab;
 
@@ -96,6 +96,8 @@ public class DiskMole : Mole
         meshMaterial.color = disabledColor;
 
         base.Start();
+
+        microManager = MicrointeractionManager.GetInstance();
     }
 
     //public void EndPlayPop()
@@ -131,7 +133,10 @@ public class DiskMole : Mole
         }
         base.PlayEnabling();
 
-        MicrointeractionManager.GetInstance().MicroInteractionMoleSpawn(this);
+        if (microManager != null)
+        {
+            microManager.MicroInteractionMoleSpawn(this);
+        }
     }
 
     protected override void PlayDisabling()
@@ -143,7 +148,10 @@ public class DiskMole : Mole
         meshMaterial.mainTexture = textureDisabled;
         base.PlayDisabling();
 
-        MicrointeractionManager.GetInstance().MicrointeractionEndContinuous(this);
+        if (microManager != null)
+        {
+            microManager.MicrointeractionEndContinuous(this);
+        }
     }
 
     protected override void PlayMissed()
@@ -186,7 +194,7 @@ public class DiskMole : Mole
         //Debug.Log("MOLE FEEDBACK");
         Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
         PlayAnimation("PopCorrectMole");
-        //StartCoroutine(ChangeColorOverTime(enabledColor, colorFeedback, disabledColor, 0.15f, duration-1.5f, feedback, -1f));
+        
         CheckmarkHeatmap checkmarkHeat = Instantiate(checkmarkHeatmapPrefab);
         checkmarkHeat.SetTransform(transform);
         checkmarkHeat.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback);
@@ -203,7 +211,10 @@ public class DiskMole : Mole
         PlaySound(popSound);
         //base.PlayPop(); // we cannot change to popped state, this breaks WAIT:HIT for some reason.
 
-        MicrointeractionManager.GetInstance().MicrointeractionEndContinuous(this);
+        if (microManager != null)
+        {
+            microManager.MicrointeractionEndContinuous(this);
+        }
     }
 
     protected override void PlayReset()
