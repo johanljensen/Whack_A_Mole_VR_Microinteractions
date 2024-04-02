@@ -166,14 +166,7 @@ public class BasicPointer : Pointer
                         dwellduration += Time.deltaTime;
                         dwellTimer = dwellTimer + 0.1f;
 
-                        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleFill_Action)
-                        {
-                            //Spawn or update the animation of the mole's outline being filled up like a progress bar
-                        }
-                        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleFill_Action)
-                        {
-                            //Spawn or update the animation of the mole being filled up from the center
-                        }
+                        MicrointeractionManager.GetInstance().MicrointeractionMolePopProgress(mole, dwellTime, dwellTimer);
 
                         //Debug.Log("SHOOTING MOLE:" + dwellTimer + " : " + dwellTime);
                         if (dwellTimer > dwellTime)

@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5796474384940876442}
-  - component: {fileID: -6079817104957109867}
+  - component: {fileID: -7732617522790948294}
   m_Layer: 0
-  m_Name: MoleFill
+  m_Name: ShootToNext
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,7 +38,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0.5, y: 0.5}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &-6079817104957109867
+--- !u!114 &-7732617522790948294
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,11 +47,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1455647207934270605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43eea3a248bd282488d2f85aaa4712fb, type: 3}
+  m_Script: {fileID: 11500000, guid: fb1214ed98e1c2b41b3cd43b61c567f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fillImage: {fileID: 6620321743193775235}
-  scaleModifier: 1.5
+  arrowSprite: {fileID: 6620321743193775235}
+  moveSpeed: 33
+  connectDistance: 0.3
 --- !u!1 &5377249804141033713
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +64,7 @@ GameObject:
   - component: {fileID: 8202320229963449930}
   - component: {fileID: 6620321743193775235}
   m_Layer: 0
-  m_Name: FillImage
+  m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -76,14 +77,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5377249804141033713}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.10000001, y: 0.10000001, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5796474384940876442}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &6620321743193775235
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -125,8 +126,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 952da8b1e2fcebb4f8b973928fb68edb, type: 3}
-  m_Color: {r: 0.80784315, g: 0.5155896, b: 0.49411765, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 989288134981f70408daff6436c1c4e3, type: 3}
+  m_Color: {r: 0.511, g: 0.809, b: 0.49411765, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

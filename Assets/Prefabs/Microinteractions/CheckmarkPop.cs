@@ -30,24 +30,14 @@ public class CheckmarkPop : MonoBehaviour
         transform.position = moleTransform.position + positionOffset;
     }
 
-    public void StartFeedback(Color enabledColor, Color colorFeedback, Color disabledColor, Material meshMaterial, float duration, float waitTime, float feedback, GameObject perfText,  float perf)
+    public void StartFeedback(Color enabledColor, Color colorFeedback, Color disabledColor, Material meshMaterial, float duration, float waitTime, float feedback)
     {
         Debug.Log("Start Checkmark effect");
-        StartCoroutine(ChangeColorOverTime(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback, perfText, perf));
+        StartCoroutine(ChangeColorOverTime(enabledColor, colorFeedback, disabledColor, meshMaterial, duration, waitTime, feedback));
     }
 
-    IEnumerator ChangeColorOverTime(Color colorStart, Color colorFeedback, Color colorEnd, Material meshMaterial, float duration, float waitTime, float feedback, GameObject perfText, float perf)
+    IEnumerator ChangeColorOverTime(Color colorStart, Color colorFeedback, Color colorEnd, Material meshMaterial, float duration, float waitTime, float feedback)
     {
-        Debug.Log("Coroutine GO");
-
-        // Debug Info: performance indication
-        var txt = perfText.GetComponentInChildren<Text>();
-        if (perf != -1f)
-        {
-            perfText.SetActive(true);
-            txt.text = perf.ToString("0.00");
-        }
-
         float popScale = feedback + 1.0f;
         // float popScale = (feedback * 0.45f) + 1.05f; // other possibility
         Debug.Log("PopScale: " + popScale);
@@ -96,7 +86,6 @@ public class CheckmarkPop : MonoBehaviour
         checkmarkOpacity.a = 0f; // force  0 opacity at end.
         checkmark.color = checkmarkOpacity;
         transform.localScale = normalSize;
-        perfText.SetActive(false);
 
         Debug.Log("Coroutine END");
         Destroy(gameObject);

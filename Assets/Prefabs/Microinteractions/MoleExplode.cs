@@ -27,22 +27,14 @@ public class MoleExplode : MonoBehaviour
         transform.position = moleTransform.position + positionOffset;
     }
 
-    public void StartFeedback(Color enabledColor, Color colorFeedback, Color disabledColor, Material meshMaterial, float duration, float waitTime, float feedback, GameObject perfText, float perf)
+    public void StartFeedback(Color enabledColor, Color colorFeedback, Color disabledColor, Material meshMaterial, float duration, float waitTime, float feedback)
     {
         Debug.Log("Start Checkmark effect");
-        StartCoroutine(CircularExpansion(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback, perfText, perf));
+        StartCoroutine(CircularExpansion(enabledColor, colorFeedback, disabledColor, meshMaterial, duration, waitTime, feedback));
     }
 
-    IEnumerator CircularExpansion(Color colorStart, Color colorFeedback, Color colorEnd, Material meshMaterial, float duration, float waitTime, float feedback, GameObject perfText, float perf)
+    IEnumerator CircularExpansion(Color colorStart, Color colorFeedback, Color colorEnd, Material meshMaterial, float duration, float waitTime, float feedback)
     {
-        // Debug Info: performance indication
-        var txt = perfText.GetComponentInChildren<Text>();
-        if (perf != -1f)
-        {
-            perfText.SetActive(true);
-            txt.text = perf.ToString("0.00");
-        }
-
         float popScale = feedback + 5.0f;
         // float popScale = (feedback * 0.45f) + 1.05f; // other possibility
         Debug.Log("PopScale: " + popScale);
@@ -72,6 +64,5 @@ public class MoleExplode : MonoBehaviour
 
         boomSprite.color = colorEnd;
         transform.localScale = normalSize;
-        perfText.SetActive(false);
     }
 }

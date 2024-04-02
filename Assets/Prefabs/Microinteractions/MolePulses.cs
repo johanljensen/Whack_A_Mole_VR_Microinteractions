@@ -88,7 +88,7 @@ public class MolePulses : MonoBehaviour
         else if (viewAngle < viewAngleMin) { scaleValue = 0; }
         else
         {
-            scaleValue = (viewAngle - viewAngleMin) / (pulseMax - viewAngleMin);
+            scaleValue = (viewAngle - viewAngleMin) / (viewAngleMax - viewAngleMin);
         }
 
         if (useCursorDistance)

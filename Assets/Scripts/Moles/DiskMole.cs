@@ -81,25 +81,9 @@ public class DiskMole : Mole
     private Coroutine colorAnimation;
     private string playingClip = "";
 
-    [Header("Microinteraction prefabs")]
-    [SerializeField]
-    CheckmarkPop checkmarkPopPrefab;
-    [SerializeField]
-    MoleExplode moleExplodePrefab;
+
     [SerializeField]
     CheckmarkHeatmap checkmarkHeatmapPrefab;
-    [SerializeField]
-    OutlineAnimation outlineAnimationPrefab;
-    [SerializeField]
-    MolePulses molePulsesPrefab;
-    [SerializeField]
-    MoleFill moleFillPrefab;
-    [SerializeField]
-    OutlineLoading outlineLoadingPrefab;
-    [SerializeField]
-    CorrectingArrow correctingArrowPrefab;
-    [SerializeField]
-    GuidingWhistle guidingWhistlePrefab;
 
     protected override void Start()
     {
@@ -147,36 +131,7 @@ public class DiskMole : Mole
         }
         base.PlayEnabling();
 
-        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MolePulses_Operation)
-        {
-            //Spawn the prefab that makes pulses from the mole's position
-            MolePulses molePulses = Instantiate(molePulsesPrefab);
-            molePulses.SetTransform(transform);
-            molePulses.StartPulseEffect();
-        }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.OutlineAnimation_Operation)
-        {
-            //Spawn the prefab that has an animated outline displaying over the regular outline
-        }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.GuidingWhistle_Operation)
-        {
-            //Spawn the prefab that plays a directional tune based on mole position vs center of head orientation
-        }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.CorrectingArrow_Operation)
-        {
-            //Spawn the prefab that detects cursor movement direction and manages arrow
-            CorrectingArrow correctionArrow = FindObjectOfType<CorrectingArrow>();
-            if(correctionArrow == null)
-            {
-                correctionArrow = Instantiate(correctingArrowPrefab);
-                correctionArrow.StartArrowEffect();
-            }
-            correctionArrow.UpdateActiveMole(this);
-        }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.ShootToNext_Action)
-        {
-            //Spawn the visual effect at the previous mole and make it travel to the new mole
-        }
+        MicrointeractionManager.GetInstance().MicroInteractionMoleSpawn(this);
     }
 
     protected override void PlayDisabling()
@@ -188,7 +143,7 @@ public class DiskMole : Mole
         meshMaterial.mainTexture = textureDisabled;
         base.PlayDisabling();
 
-        StopContinuousMicrointeraction();
+        MicrointeractionManager.GetInstance().MicrointeractionEndContinuous(this);
     }
 
     protected override void PlayMissed()
@@ -240,57 +195,15 @@ public class DiskMole : Mole
     protected override void PlayPop(float feedback, float perf)
     {
         //Debug.Log("MOLE POP");
-        Debug.Log(PatternFeedback.GetFeedbackType());
-        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.CheckmarkPop_Action)
-        {
-            Debug.Log("CHECKMARK FEEDBACK");
-            if (moleType == Mole.MoleType.Target)
-            {
-                Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
-                meshMaterial.mainTexture = textureDisabled;
-                CheckmarkPop checkmarkPop = Instantiate(checkmarkPopPrefab);
-                checkmarkPop.SetTransform(transform);
-                checkmarkPop.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback, perfText, perf);
-            }
-            else
-            {
-                PlayAnimation("PopWrongMole");    // Show negative feedback to users that shoot an incorrect moles, to make it clear this is a fail
-                meshMaterial.color = disabledColor;
-                meshMaterial.mainTexture = textureDisabled;
-            }
-        }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleExplode_Action)
-        {
-            Debug.Log("EXPLODE FEEDBACK");
-            if (moleType == Mole.MoleType.Target)
-            {
-                Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
-                meshMaterial.mainTexture = textureDisabled;
-                MoleExplode moleExplosion = Instantiate(moleExplodePrefab);
-                moleExplosion.SetTransform(transform);
-                moleExplosion.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback, perfText, perf);
-            }
-            else
-            {
-                PlayAnimation("PopWrongMole");    // Show negative feedback to users that shoot an incorrect moles, to make it clear this is a fail
-                meshMaterial.color = disabledColor;
-                meshMaterial.mainTexture = textureDisabled;
-            }
-        }
-        else if(PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleDepleted_Action)
-        {
-            meshMaterial.mainTexture = textureDisabled;
-            meshMaterial.color = feedbackLowColor;
-        }
-        else
-        {
-            meshMaterial.color = disabledColor;
-            meshMaterial.mainTexture = textureDisabled;
-        }
+        Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
+        meshMaterial.mainTexture = textureDisabled;
+        meshMaterial.color = disabledColor;
+
+        MicrointeractionManager.GetInstance().MicrointeractionMolePopComplete(this, meshMaterial, enabledColor, colorFeedback, disabledColor, feedbackLowColor, feedback);
         PlaySound(popSound);
         //base.PlayPop(); // we cannot change to popped state, this breaks WAIT:HIT for some reason.
 
-        StopContinuousMicrointeraction();
+        MicrointeractionManager.GetInstance().MicrointeractionEndContinuous(this);
     }
 
     protected override void PlayReset()
@@ -298,17 +211,6 @@ public class DiskMole : Mole
         PlayAnimation("EnableDisable");
         meshMaterial.color = disabledColor;
         meshMaterial.mainTexture = textureDisabled;
-    }
-
-    private void StopContinuousMicrointeraction()
-    {
-        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MolePulses_Operation)
-        {
-            meshMaterial.mainTexture = textureDisabled;
-            meshMaterial.color = disabledColor;
-            MolePulses pulses = GetComponentInChildren<MolePulses>();
-            Destroy(pulses.gameObject);
-        }
     }
 
     /*

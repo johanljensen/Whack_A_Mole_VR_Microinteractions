@@ -363,6 +363,8 @@ MonoBehaviour:
     type: 3}
   guidingWhistlePrefab: {fileID: 632395877438986163, guid: ac9dfdc71090f9a4cba3acf5d5a628de,
     type: 3}
+  shootToNextPrefab: {fileID: -7732617522790948294, guid: e5596c2d7e3dc8b49be1414bf824dcbf,
+    type: 3}
 --- !u!82 &5964598934260530701
 AudioSource:
   m_ObjectHideFlags: 0
