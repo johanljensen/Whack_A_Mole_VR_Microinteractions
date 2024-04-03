@@ -105,14 +105,14 @@ public class MicrointeractionManager : MonoBehaviour
         {
             
             CheckmarkPop checkmarkPop = Instantiate(checkmarkPopPrefab);
-            checkmarkPop.SetTransform(transform);
+            checkmarkPop.SetTransform(poppedMole.transform);
             checkmarkPop.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback);
             
         }
         else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleExplode_Action)
         {
             MoleExplode moleExplosion = Instantiate(moleExplodePrefab);
-            moleExplosion.SetTransform(transform);
+            moleExplosion.SetTransform(poppedMole.transform);
             moleExplosion.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback);
         }
         else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleDepleted_Action)
@@ -122,7 +122,7 @@ public class MicrointeractionManager : MonoBehaviour
         else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.ShootToNext_Action)
         {
             ShootToNext shootToNext = Instantiate(shootToNextPrefab);
-            shootToNext.SetTransform(transform);
+            shootToNext.SetTransform(poppedMole.transform);
         }
     }
 
@@ -155,17 +155,26 @@ public class MicrointeractionManager : MonoBehaviour
         if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MolePulses_Operation)
         {
             MolePulses pulses = disablingMole.GetComponentInChildren<MolePulses>();
-            Destroy(pulses.gameObject);
+            if (pulses != null)
+            {
+                Destroy(pulses.gameObject);
+            }
         }
         else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.OutlineAnimation_Operation)
         {
             OutlineAnimation animation = disablingMole.GetComponentInChildren<OutlineAnimation>();
-            Destroy(animation.gameObject);
+            if (animation != null)
+            {
+                Destroy(animation.gameObject);
+            }
         }
         else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.OutlineLoading_Action)
         {
             OutlineLoading loadRing = disablingMole.GetComponentInChildren<OutlineLoading>();
-            Destroy(loadRing.gameObject);
+            if (loadRing != null)
+            {
+                Destroy(loadRing.gameObject);
+            }
         }
     }
 }
