@@ -169,6 +169,8 @@ public class WallManager : MonoBehaviour
     }
     public Dictionary<int, MoleData> moleDataDict = new Dictionary<int, MoleData>();
 
+    [SerializeField]
+    Color finishFadeColour;
 
     void Start()
     {
@@ -341,6 +343,14 @@ public class WallManager : MonoBehaviour
         wallInfo.meshBoundsZmin = meshBoundsZmin;
 
         return wallInfo;
+    }
+
+    public void FinishFade()
+    {
+        if (wallGenerator != null)
+        {
+            wallGenerator.FadeColour(finishFadeColour);
+        }
     }
 
     // Activates a random Mole for a given lifeTime and set if is fake or not

@@ -53,8 +53,8 @@ public class CheckmarkPop : MonoBehaviour
             meshMaterial.color = Color.Lerp(colorStart, colorFeedback, (elapsedTime / duration));
             elapsedTime += Time.deltaTime;
             yield return null;
-            Debug.Log(new Vector3(0, 10f, 0) * Time.deltaTime);
-            Debug.Log(transform.position);
+            //Debug.Log(new Vector3(0, 10f, 0) * Time.deltaTime);
+            //Debug.Log(transform.position);
         }
 
         // Hold the end color for 0.1 seconds

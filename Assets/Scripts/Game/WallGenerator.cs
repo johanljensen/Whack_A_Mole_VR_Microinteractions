@@ -165,4 +165,46 @@ public class WallGenerator : MonoBehaviour
         meshCollider.sharedMesh = mesh;
         meshRenderer.material = meshMaterial;
     }
+
+    bool fadingColour = false;
+    float fadeTime = 1;
+    public void FadeColour(Color colorToFade)
+    {
+        if (!fadingColour)
+        {
+            StartCoroutine(FadeColourCoroutine(colorToFade));
+        }
+    }
+
+    private IEnumerator FadeColourCoroutine(Color colorToFade)
+    {
+        Debug.Log("fading time");
+        fadingColour = true;
+        Color startColour = meshRenderer.material.color;
+        Color currentColour = startColour;
+
+        float fadeTimer = 0;
+        while(fadeTimer < fadeTime)
+        {
+            fadeTimer += Time.deltaTime;
+            Debug.Log("Fading in: " + currentColour + " - " + colorToFade);
+            currentColour = Color.Lerp(startColour, colorToFade, fadeTimer / fadeTime);
+            meshRenderer.material.SetColor("_Color", currentColour);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        fadeTimer = 0;
+        while(fadeTimer < fadeTime) 
+        {
+            fadeTimer += Time.deltaTime;
+            Debug.Log("fading out");
+            currentColour = Color.Lerp(colorToFade, startColour, fadeTimer / fadeTime);
+            meshRenderer.material.SetColor("_Color", currentColour);
+            yield return null;
+        }
+
+        fadingColour = false;
+    }
 }

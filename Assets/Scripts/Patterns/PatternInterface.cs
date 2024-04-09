@@ -104,6 +104,10 @@ public class PatternInterface : MonoBehaviour
                     CallStop();
                     break;
 
+                case "FINISH":
+                    ShowFinish();
+                    break;
+
                 case "WALL":
                     SetWall(action);
                     break;
@@ -165,6 +169,11 @@ public class PatternInterface : MonoBehaviour
     public void CallStop()
     {
         gameDirector.StopGame();
+    }
+
+    public void ShowFinish()
+    {
+        wallManager.FinishFade();
     }
 
     // Updates one or multiple Wall's properties

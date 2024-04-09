@@ -268,7 +268,7 @@ public class PatternPlayer: MonoBehaviour
                 waitForDuration = GetWaitTime(playIndex);
                 patternInterface.ResetTargetsList();
                 return;
-            } else if (action["FUNCTION"] == "MOLE") {
+            } else if (action["FUNCTION"] == "MOLE" || action["FUNCTION"] == "FINISH") {
                 waitForDuration = -1f;
                 waitTimeLeft = 0f;
                 continue;

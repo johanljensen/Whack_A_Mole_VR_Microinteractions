@@ -43,8 +43,8 @@ MonoBehaviour:
     y: 0
     width: 786
     height: 311
-  m_MinSize: {x: 102, y: 121}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 115
+  controlID: 114
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 52
+  controlID: 150
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -319,8 +319,8 @@ MonoBehaviour:
     y: 0
     width: 423
     height: 939
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -363,7 +363,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 1a110000
+      m_SelectedIDs: fe0f0000
       m_LastClickedID: 0
       m_ExpandedIDs: 1efbffff
       m_RenameOverlay:
@@ -771,9 +771,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -1.4219013, y: 2.6240923, z: -6.964501}
+    m_Target: {x: -0.85797787, y: 2.2164526, z: 7.8765416}
     speed: 2
-    m_Value: {x: -1.4219013, y: 2.6240923, z: -6.964501}
+    m_Value: {x: -0.85797787, y: 2.2164526, z: 7.8765416}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -819,13 +819,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.070718236, y: -0.20441063, z: 0.014790413, w: -0.9762279}
+    m_Target: {x: -0.15537384, y: -0.3878201, z: 0.066477716, w: -0.90612483}
     speed: 2
-    m_Value: {x: -0.07071738, y: -0.20440814, z: 0.014790233, w: -0.976216}
+    m_Value: {x: -0.15537176, y: -0.38781488, z: 0.06647682, w: -0.9061126}
   m_Size:
-    m_Target: 0.70710665
+    m_Target: 8.131954
     speed: 2
-    m_Value: 0.70710665
+    m_Value: 8.131954
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -995,23 +995,23 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/Microinteractions
+    - Assets/Scripts/Patterns
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Prefabs/Microinteractions
+  - Assets/Scripts/Patterns
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\johan\Desktop\Programming\Repositories\Whack_a_Mole\Whack_A_Mole_VR_Microinteractions
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 141}
-    m_SelectedIDs: fc820000
-    m_LastClickedID: 33532
-    m_ExpandedIDs: 000000002c8200002e8200003082000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 166}
+    m_SelectedIDs: 18830000
+    m_LastClickedID: 33560
+    m_ExpandedIDs: 0000000036820000388200003a82000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1039,7 +1039,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000002c8200002e82000030820000
+    m_ExpandedIDs: 0000000036820000388200003a820000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1091,7 +1091,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 89}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 207
