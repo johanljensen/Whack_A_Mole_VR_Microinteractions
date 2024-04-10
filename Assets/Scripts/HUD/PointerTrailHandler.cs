@@ -9,6 +9,11 @@ public class PointerTrailHandler : MonoBehaviour
     private Pointer controllerParent;
 
     [SerializeField]
+    bool showPerformance;
+    [SerializeField]
+    bool playSound;
+
+    [SerializeField]
     private PerformanceManager performanceManager;
     [SerializeField]
     private Color trailColor = new Color(0.118f, 0.486f, 0.718f, 1f);  // this is now the field for trail color
@@ -72,15 +77,17 @@ public class PointerTrailHandler : MonoBehaviour
         trailRenderer.endColor = new Color(trailColor.r, trailColor.g, trailColor.b, 0f);
     }
 
-
-
     private void Awake()
     {
-        if (isVisible)
+        if (isVisible && playSound)
         {
             soundManager.PlaySoundLooped(gameObject, trailSound);
             soundManager.ChangeVolume(trailSound, 0f);  // Set initial volume to 0
         }
+
+        //Set default values in case we don't want the trail to vary with the performance algorithm
+        speed = 0.5f;
+        perf = 0.5f;
     }
 
     private void Update()
@@ -88,9 +95,12 @@ public class PointerTrailHandler : MonoBehaviour
         if (!trailRenderer || !spriteRenderer)
             return;
 
-        ControllerName controllerName = controllerParent.GetControllerName();
-        speed = performanceManager.GetInstantJudgement(controllerName);
-        perf = performanceManager.GetInstantPerformance(controllerName);
+        if (showPerformance)
+        {
+            ControllerName controllerName = controllerParent.GetControllerName();
+            speed = performanceManager.GetInstantJudgement(controllerName);
+            perf = performanceManager.GetInstantPerformance(controllerName);
+        }
 
         UpdateRuntimeVisibility();
         // If the final visibility is true, then update the trail properties
@@ -122,21 +132,28 @@ public class PointerTrailHandler : MonoBehaviour
                 txt.text = perf.ToString("0.00");
             }
 
-            float targetDiameter = spriteRenderer.bounds.size.x;
+            if (playSound)
+            {
+                float targetVolume = Mathf.Lerp(0f, 1f, normalizedSpeed);
+                if (currentVolume == -1f)
+                {
+                    currentVolume = targetVolume;
+                }
+                else
+                {
+                    currentVolume = Mathf.Lerp(currentVolume, targetVolume, Time.deltaTime * 2f);
+                }
 
-            float targetVolume = Mathf.Lerp(0f, 1f, normalizedSpeed);
-            if (currentVolume == -1f)  {
-                currentVolume = targetVolume;
-            } else {
-                currentVolume = Mathf.Lerp(currentVolume, targetVolume, Time.deltaTime * 2f);
+                float targetPitch = Mathf.Lerp(minTargetPitch, maxTargetPitch, normalizedSpeed);
+                currentPitch = Mathf.Lerp(currentPitch, targetPitch, Time.deltaTime * 2f);
+
+                soundManager.ChangePitch(trailSound, currentPitch);
+                soundManager.ChangeVolume(trailSound, currentVolume);
+                //soundManager.ChangeVolume(trailSound, (speed > 0.0f) ? Mathf.Lerp(0f, 1f, speed) : 0f);
             }
-            soundManager.ChangeVolume(trailSound, currentVolume);
-            //soundManager.ChangeVolume(trailSound, (speed > 0.0f) ? Mathf.Lerp(0f, 1f, speed) : 0f);
 
-            float targetPitch = Mathf.Lerp(minTargetPitch, maxTargetPitch, normalizedSpeed);
-            currentPitch = Mathf.Lerp(currentPitch, targetPitch, Time.deltaTime * 2f);
-            soundManager.ChangePitch(trailSound, currentPitch);
 
+            float targetDiameter = spriteRenderer.bounds.size.x;
             float currentLength = Mathf.Min(Mathf.Lerp(minTrailLength, maxTrailLength, normalizedSpeed), maxTrailLength);
             float currentWidth = Mathf.Lerp(0, targetDiameter * 0.8f, normalizedSpeed);
             Color currentColor = new Color(trailColor.r, trailColor.g, trailColor.b, Mathf.Lerp(0.5f, 1f, normalizedSpeed));
@@ -149,18 +166,10 @@ public class PointerTrailHandler : MonoBehaviour
         }
     }
 
-
-
     private float GetNonLinearSpeed()
     {
         return Mathf.Pow(speed, 0.3f);
     }
-
-
-
-
-
-
 
     private void UpdateRuntimeVisibility()
     {
