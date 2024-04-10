@@ -115,7 +115,7 @@ public class ModifiersManager : MonoBehaviour
     private EyePatch eyePatch = EyePatch.None;
     private HideWall hideWall = HideWall.None;
     private ControllerSetup controllerSetup = ControllerSetup.Right;
-    private PatternFeedback.FeedbackType performanceFeedback = PatternFeedback.FeedbackType.None;
+    private Microinteractions.FeedbackType performanceFeedback = Microinteractions.FeedbackType.None;
     private JudgementType judgementType = JudgementType.MaxSpeed;
     private bool mirrorEffect;
     private bool physicalMirrorEffect;
@@ -222,7 +222,7 @@ public class ModifiersManager : MonoBehaviour
         SetPrismOffset((float)state["PrismOffset"]);
         SetMainController((ModifiersManager.ControllerSetup)state["ControllerSetup"]);
         SetControllerEnabled((ModifiersManager.ControllerSetup)state["ControllerSetup"], true);
-        SetPerformanceFeedback((PatternFeedback.FeedbackType)state["PerformanceFeedback"]);
+        SetPerformanceFeedback((Microinteractions.FeedbackType)state["PerformanceFeedback"]);
         SetJudgementType((JudgementType)state["JudgementType"]);
         SetEmbodiment((ModifiersManager.Embodiment)state["Embodiment"]);
         SetMotorspaceOutOfBoundsSignifier((ModifiersManager.MotorspaceOutOfBoundsSignifier)state["MotorspaceOutOfBoundsSignifier"]);
@@ -608,23 +608,23 @@ public class ModifiersManager : MonoBehaviour
         }
     }
 
-    public void SetPerformanceFeedback(PatternFeedback.FeedbackType value)
+    public void SetPerformanceFeedback(Microinteractions.FeedbackType value)
     {
         Debug.Log("SET FEEDBACKTYPE: " + value);
-        PatternFeedback.SetFeedbackType(value);
-        Debug.Log(PatternFeedback.GetFeedbackType());
+        Microinteractions.SetFeedbackType(value);
+        Debug.Log(Microinteractions.GetSelectedFeedback());
+
+        motorSpaceManager.SetOperationPerformanceFeedback(false, false);
 
         // Raises an Event and updates a PersistentEvent's parameter (in consequence, a PersistentEvent will also be raised)
-        loggerNotifier.NotifyLogger($"Performance Feedback Set {Enum.GetName(typeof(PatternFeedback.FeedbackType), value)}", EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
+        loggerNotifier.NotifyLogger($"Performance Feedback Set {Enum.GetName(typeof(Microinteractions.FeedbackType), value)}", EventLogger.EventType.ModifierEvent, new Dictionary<string, object>()
         {
-            {"PerformanceFeedback", Enum.GetName(typeof(PatternFeedback.FeedbackType), value)}
+            {"PerformanceFeedback", Enum.GetName(typeof(Microinteractions.FeedbackType), value)}
         });
 
-        modifierUpdateEvent.Invoke($"PerformanceFeedback", Enum.GetName(typeof(PatternFeedback.FeedbackType), value));
+        modifierUpdateEvent.Invoke($"PerformanceFeedback", Enum.GetName(typeof(Microinteractions.FeedbackType), value));
 
         this.performanceFeedback = value;
-
-
     }
 
     public void SetJudgementType(JudgementType value)

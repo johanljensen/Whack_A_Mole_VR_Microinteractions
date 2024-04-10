@@ -113,8 +113,8 @@ public class PatternInterface : MonoBehaviour
                     break;
 
                 case "FEEDBACK":
-                    Debug.Log(action["TIME"]);
-                    SetFeedback(action["TIME"]);
+                    Debug.Log(action["TIME"] + " : " + action["TYPE"]);
+                    SetFeedback(action["TIME"], action["TYPE"]);
                     break;
 
                 case "MOLE":
@@ -243,11 +243,11 @@ public class PatternInterface : MonoBehaviour
         AddToTargetsList(moleId, mole);
     }
 
-    // Spawns a Mole
-    private void SetFeedback(string time)
+    // Spawns a display of player performance
+    private void SetFeedback(string time, string feedbackType)
     {
         Debug.Log("yes1");
-        wallManager.ShowTaskFeedback(ParseFloat(time));
+        wallManager.ShowTaskFeedback(ParseFloat(time), feedbackType);
     }
 
     // Spawns a distractor (fake Mole)
@@ -344,7 +344,7 @@ public class PatternInterface : MonoBehaviour
         // TYPE OF JUDGEMENT FEEDBACK : Enum with : None, Operation, Action, Task, All
         if (action.TryGetValue("PERFORMANCEFEEDBACK", out tempValue))
         {
-            modifiersManager.SetPerformanceFeedback((PatternFeedback.FeedbackType)System.Enum.Parse(typeof(PatternFeedback.FeedbackType), tempValue));
+            modifiersManager.SetPerformanceFeedback((Microinteractions.FeedbackType)System.Enum.Parse(typeof(Microinteractions.FeedbackType), tempValue));
         }
         if (action.TryGetValue("EMBODIMENT", out tempValue))
         {

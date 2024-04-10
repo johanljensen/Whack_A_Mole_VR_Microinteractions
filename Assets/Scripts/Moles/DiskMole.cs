@@ -189,7 +189,7 @@ public class DiskMole : Mole
         }
     }
 
-    public override void PlayFeedback(float feedback, float duration)
+    public override void PlayFeedback(float feedback, float waitTime)
     {
         //Debug.Log("MOLE FEEDBACK");
         Color colorFeedback = Color.Lerp(popSlow, popFast, feedback);
@@ -197,7 +197,7 @@ public class DiskMole : Mole
         
         CheckmarkHeatmap checkmarkHeat = Instantiate(checkmarkHeatmapPrefab);
         checkmarkHeat.SetTransform(transform);
-        checkmarkHeat.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback);
+        checkmarkHeat.StartFeedback(colorFeedback, meshMaterial, waitTime, feedback);
     }
 
     protected override void PlayPop(float feedback, float perf)

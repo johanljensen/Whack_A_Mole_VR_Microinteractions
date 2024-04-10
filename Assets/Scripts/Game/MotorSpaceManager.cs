@@ -242,6 +242,24 @@ public class MotorSpaceManager : MonoBehaviour
         }
     }
 
+    internal void SetOperationPerformanceFeedback(bool v, bool withText)
+    {
+        if (motorspace == ActiveMotorSpace.Right)
+        {
+            MotorSpaceRight.SetOperationPerformanceFeedback(v, withText);
+        }
+        else if (motorspace == ActiveMotorSpace.Left)
+        {
+            MotorSpaceLeft.SetOperationPerformanceFeedback(v, withText);
+        }
+        else if (motorspace == ActiveMotorSpace.Both)
+        {
+            MotorSpaceRight.SetOperationPerformanceFeedback(v, withText);
+            MotorSpaceLeft.SetOperationPerformanceFeedback(v, withText);
+        }
+    }
+
+
     public void SetMotorSpace(MotorSpaceInfo m) {
         bool mRState = MotorSpaceRight.gameObject.activeSelf;
         bool mLState = MotorSpaceLeft.gameObject.activeSelf;

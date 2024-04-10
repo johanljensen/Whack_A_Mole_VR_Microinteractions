@@ -94,7 +94,6 @@ public class BasicPointer : Pointer
 
     public override void ShowTaskFeedback(float duration, List<(int id, float val)> molePerf, float animationDelay)
     {
-        if (PatternFeedback.GetFeedbackType() != PatternFeedback.FeedbackType.HeatmapOrder_Task) { return; }
         StartCoroutine(WaitShowTaskFeedback(duration, molePerf, animationDelay));
     }
     
@@ -108,7 +107,6 @@ public class BasicPointer : Pointer
                 yield return new WaitForSeconds(animationDelay);
             }
         }
-
     }
 
     public override void PositionUpdated()
@@ -255,7 +253,7 @@ public class BasicPointer : Pointer
     }
 
     private void OperationFeedback() {
-        if (!PatternFeedback.ShouldVibrateController()) return;
+        if (!Microinteractions.ShouldVibrateController()) return;
 
         if (pulseClock > 0.06) {
             float val = performanceManager.GetInstantJudgement(controllerName);
@@ -274,7 +272,7 @@ public class BasicPointer : Pointer
         if (correctHit) newColor = shootColor;
         else newColor = badShootColor;
 
-        if (!PatternFeedback.ShouldGiveNegativeFeedback())
+        if (!Microinteractions.ShouldGiveNegativeFeedback())
         {
             // don't show badShootColor if performance feedback is disabled.
             newColor = shootColor;

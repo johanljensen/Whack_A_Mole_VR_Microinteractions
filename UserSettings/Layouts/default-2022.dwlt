@@ -363,9 +363,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: fe0f0000
+      m_SelectedIDs: 1e1c0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 1efbffff
+      m_ExpandedIDs: ca1bffffba1cffff3c28ffff4228ffff4e28ffff5428ffffa62effff6632ffff9632ffff1efbffff8c6c000078760000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -771,9 +771,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.85797787, y: 2.2164526, z: 7.8765416}
+    m_Target: {x: 4.8479195, y: -0.6937144, z: 14.959881}
     speed: 2
-    m_Value: {x: -0.85797787, y: 2.2164526, z: 7.8765416}
+    m_Value: {x: 4.8479195, y: -0.6937144, z: 14.959881}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -819,9 +819,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.15537384, y: -0.3878201, z: 0.066477716, w: -0.90612483}
+    m_Target: {x: -0.10260416, y: -0.31311068, z: 0.034030333, w: -0.9435582}
     speed: 2
-    m_Value: {x: -0.15537176, y: -0.38781488, z: 0.06647682, w: -0.9061126}
+    m_Value: {x: -0.102602825, y: -0.3131066, z: 0.03402989, w: -0.94354594}
   m_Size:
     m_Target: 8.131954
     speed: 2
@@ -983,7 +983,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_SearchFilter:
-    m_NameFilter: 
+    m_NameFilter: modifi
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -995,22 +995,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Patterns
+    - Assets/Prefabs/Microinteractions
     m_Globs: []
-    m_OriginalText: 
+    m_OriginalText: modifi
     m_ImportLogFlags: 0
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/Patterns
+  - Assets/Prefabs/Microinteractions
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\johan\Desktop\Programming\Repositories\Whack_a_Mole\Whack_A_Mole_VR_Microinteractions
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 166}
-    m_SelectedIDs: 18830000
-    m_LastClickedID: 33560
+    scrollPos: {x: 0, y: 226}
+    m_SelectedIDs: 06830000
+    m_LastClickedID: 33542
     m_ExpandedIDs: 0000000036820000388200003a82000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0

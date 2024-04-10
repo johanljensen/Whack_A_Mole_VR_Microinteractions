@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class PatternFeedback
+public static class Microinteractions
 {
     public enum FeedbackType
     {
@@ -17,10 +17,7 @@ public static class PatternFeedback
         MoleFill_Action,
         CheckmarkPop_Action,
         MoleDepleted_Action,
-        ShootToNext_Action,
-        HeatmapOrder_Task,
-        HeatmapChart_Task,
-        HeatmapTier_Task
+        ShootToNext_Action
     }
 
     private static FeedbackType selectedFeedback = FeedbackType.None;
@@ -30,7 +27,7 @@ public static class PatternFeedback
         selectedFeedback = newType;
     }
 
-    public static FeedbackType GetFeedbackType()
+    public static FeedbackType GetSelectedFeedback()
     {
         return selectedFeedback;
     }

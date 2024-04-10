@@ -8,7 +8,7 @@ public class HeatmapHandler : MonoBehaviour
     [SerializeField]
     Material lineMaterial;
 
-    public void ProcessTaskHeatmap(Dictionary<int, Mole> moles, PerfData perfLeft, PerfData perfRight, List<(int id, float val)> molePerf, float duration, SoundManager soundManager)
+    public void ProcessTaskHeatmap(string feedbackType, Dictionary<int, Mole> moles, PerfData perfLeft, PerfData perfRight, List<(int id, float val)> molePerf, float duration, SoundManager soundManager)
     {
         Debug.Log("Yes3");
         // TODO: Currently mole performance is just averaged across both controllers.
@@ -43,17 +43,20 @@ public class HeatmapHandler : MonoBehaviour
             Debug.Log(moleP.id + " : " + moleP.val);
         }
 
-        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.HeatmapOrder_Task)
+        Debug.Log(feedbackType);
+        switch(feedbackType)
         {
-            StartCoroutine(ShowOrderFeedback(moles, duration, molePerf, 0.15f, soundManager));
-        }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.HeatmapChart_Task)
-        {
-            StartCoroutine(ShowChartFeedback(moles, duration, molePerf, 0.15f, soundManager));
-        }
-        else if(PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.HeatmapTier_Task)
-        {
-            StartCoroutine(ShowTierFeedback(moles, duration, molePerf, 0.15f, soundManager));
+            case "HeatmapOrder":
+                StartCoroutine(ShowOrderFeedback(moles, duration, molePerf, 0.15f, soundManager));
+                break;
+            case "HeatmapChart":
+                StartCoroutine(ShowChartFeedback(moles, duration, molePerf, 0.15f, soundManager));
+                break;
+            case "HeatmapTier":
+                StartCoroutine(ShowTierFeedback(moles, duration, molePerf, 0.15f, soundManager));
+                break;
+            default:
+                break;
         }
     }
 
@@ -102,6 +105,7 @@ public class HeatmapHandler : MonoBehaviour
                     {
                         Vector3 positionChange = (nextMole.transform.position - moleConnector.GetPosition(1)).normalized * lineSpeed * Time.deltaTime;
                         moleConnector.SetPosition(1, moleConnector.GetPosition(1) + positionChange);
+                        timeSpent += Time.deltaTime;
                         yield return null;
                     }
                 }

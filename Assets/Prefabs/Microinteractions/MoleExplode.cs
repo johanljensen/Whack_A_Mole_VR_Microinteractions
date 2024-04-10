@@ -35,17 +35,17 @@ public class MoleExplode : MonoBehaviour
 
     IEnumerator CircularExpansion(Color colorStart, Color colorFeedback, Color colorEnd, Material meshMaterial, float duration, float waitTime, float feedback)
     {
-        float popScale = feedback + 5.0f;
+        float popScale = feedback + 15.0f;
         // float popScale = (feedback * 0.45f) + 1.05f; // other possibility
         Debug.Log("PopScale: " + popScale);
         Vector3 normalSize = transform.localScale;
         Vector3 feedbackSize = transform.localScale * popScale;
-        boomSprite.color = colorFeedback;
+        boomSprite.material.SetColor("_Color", colorFeedback);
         float elapsedTime = 0;
         while (elapsedTime < duration * 0.7f)
         {
             transform.localScale = Vector3.Lerp(normalSize, feedbackSize, (elapsedTime / duration));
-            meshMaterial.color = Color.Lerp(colorStart, colorFeedback, (elapsedTime / duration));
+            //meshMaterial.color = Color.Lerp(colorStart, colorFeedback, (elapsedTime / duration));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -54,15 +54,14 @@ public class MoleExplode : MonoBehaviour
         while (elapsedTime < duration)
         {
             transform.localScale = Vector3.Lerp(normalSize, feedbackSize, (elapsedTime / duration));
-            meshMaterial.color = Color.Lerp(colorStart, colorFeedbackFaded, (elapsedTime / duration));
+            //meshMaterial.color = Color.Lerp(colorStart, colorFeedbackFaded, (elapsedTime / duration));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         // Hold the end color for 0.1 seconds
         yield return new WaitForSeconds(waitTime);
-
-        boomSprite.color = colorEnd;
         transform.localScale = normalSize;
+        Destroy(gameObject);
     }
 }

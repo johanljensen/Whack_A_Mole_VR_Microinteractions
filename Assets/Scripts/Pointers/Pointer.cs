@@ -343,7 +343,7 @@ public abstract class Pointer : MonoBehaviour
                 if (moleAnswer == Mole.MolePopAnswer.Ok)
                 {
                     PlayShoot(moleAnswer == Mole.MolePopAnswer.Ok);
-                    if (PatternFeedback.ShouldVibrateController())
+                    if (Microinteractions.ShouldVibrateController())
                     {
                         soundManager.PlaySoundWithPitch(gameObject, SoundManager.Sound.greenMoleHit, feedback);
                         Pulse(duration:0.05f, frequency:100, amplitude:feedback * 35);    
@@ -356,7 +356,7 @@ public abstract class Pointer : MonoBehaviour
                 else if (moleAnswer == Mole.MolePopAnswer.Fake)
                 {
                     PlayShoot(moleAnswer == Mole.MolePopAnswer.Ok);
-                    if (PatternFeedback.ShouldGiveNegativeFeedback())
+                    if (Microinteractions.ShouldGiveNegativeFeedback())
                     {
                         soundManager.PlaySound(gameObject, SoundManager.Sound.redMoleHit);
                     }
@@ -373,7 +373,7 @@ public abstract class Pointer : MonoBehaviour
                 return;
             }
             RaiseMoleMissedEvent(hit.point);
-            if (PatternFeedback.ShouldGiveNegativeFeedback())
+            if (Microinteractions.ShouldGiveNegativeFeedback())
             {
                 soundManager.PlaySound(gameObject, SoundManager.Sound.missedMole);
             }

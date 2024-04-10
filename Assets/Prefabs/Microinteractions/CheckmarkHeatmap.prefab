@@ -53,6 +53,8 @@ MonoBehaviour:
   checkmark: {fileID: 6620321743193775235}
   circleOutline: {fileID: 3878863546567030037}
   positionOffset: {x: 0, y: 0, z: -0.1}
+  fadeInTime: 0.2
+  fadeOutTime: 1
 --- !u!1 &3135325242923668143
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +81,7 @@ Transform:
   m_GameObject: {fileID: 3135325242923668143}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.001}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8202320229963449930}

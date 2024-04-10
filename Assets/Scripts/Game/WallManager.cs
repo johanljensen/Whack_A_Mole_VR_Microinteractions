@@ -435,12 +435,18 @@ public class WallManager : MonoBehaviour
         return stateUpdateEvent;
     }
 
-    public void ShowTaskFeedback(float duration)
+    public void ShowTaskFeedback(float duration, string feedbackType)
     {
         Debug.Log("Yes2");
         if(heatmapHandler == null)
         {
             heatmapHandler = gameObject.AddComponent<HeatmapHandler>();
+
+            if(heatmapHandler == null)
+            {
+                Debug.LogError("Could not find HeatmapHandler");
+                return;
+            }
         }
 
         Debug.Log("ShowTaskFeedback called");
@@ -453,7 +459,7 @@ public class WallManager : MonoBehaviour
         // Ordered list of moleIDs and their performance value.
         List<(int id, float val)> molePerf = new List<(int id, float val)>();
 
-        heatmapHandler.ProcessTaskHeatmap(moles, perfL, perfR, molePerf, duration, soundManager);
+        heatmapHandler.ProcessTaskHeatmap(feedbackType, moles, perfL, perfR, molePerf, duration, soundManager);
         motorspaceManager.ShowTaskFeedback(duration, molePerf, 0.15f);
     }
 

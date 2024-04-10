@@ -50,31 +50,31 @@ public class MicrointeractionManager : MonoBehaviour
     {
         if(!MicrointeractionsOn) { return; }
 
-        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MolePulses_Operation)
+        if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MolePulses_Operation)
         {
             MolePulses molePulses = Instantiate(molePulsesPrefab);
             molePulses.SetTransform(newMole.transform);
             molePulses.StartPulseEffect();
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleFill_Action)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MoleFill_Action)
         {
             Instantiate(moleFillPrefab).GetComponent<MoleFill>().SetTransform(newMole.transform);
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.OutlineAnimation_Operation)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.OutlineAnimation_Operation)
         {
             OutlineAnimation outlineAnim = Instantiate(outlineAnimationPrefab);
             outlineAnim.SetTransform(newMole.transform);
             outlineAnim.StartAnimEffect();
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.OutlineLoading_Action)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.OutlineLoading_Action)
         {
             Instantiate(outlineLoadingPrefab).GetComponent<OutlineLoading>().SetTransform(newMole.transform);
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.GuidingWhistle_Operation)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.GuidingWhistle_Operation)
         {
 
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.CorrectingArrow_Operation)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.CorrectingArrow_Operation)
         {
             CorrectingArrow correctionArrow = FindObjectOfType<CorrectingArrow>();
             if (correctionArrow == null)
@@ -84,7 +84,7 @@ public class MicrointeractionManager : MonoBehaviour
             }
             correctionArrow.UpdateActiveMole(newMole);
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.ShootToNext_Action)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.ShootToNext_Action)
         {
             //Visual was spawned at the previous mole, find it and make it travel to the new mole
             ShootToNext shootToNextInstance = FindObjectOfType<ShootToNext>();
@@ -100,8 +100,8 @@ public class MicrointeractionManager : MonoBehaviour
     {
         if (!MicrointeractionsOn) { return; }
 
-        Debug.Log(PatternFeedback.GetFeedbackType());
-        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.CheckmarkPop_Action)
+        Debug.Log(Microinteractions.GetSelectedFeedback());
+        if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.CheckmarkPop_Action)
         {
             
             CheckmarkPop checkmarkPop = Instantiate(checkmarkPopPrefab);
@@ -109,17 +109,17 @@ public class MicrointeractionManager : MonoBehaviour
             checkmarkPop.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback);
             
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleExplode_Action)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MoleExplode_Action)
         {
             MoleExplode moleExplosion = Instantiate(moleExplodePrefab);
             moleExplosion.SetTransform(poppedMole.transform);
             moleExplosion.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback);
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleDepleted_Action)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MoleDepleted_Action)
         {
             meshMaterial.color = feedbackLowColor;
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.ShootToNext_Action)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.ShootToNext_Action)
         {
             ShootToNext shootToNext = Instantiate(shootToNextPrefab);
             shootToNext.SetTransform(poppedMole.transform);
@@ -130,7 +130,7 @@ public class MicrointeractionManager : MonoBehaviour
     {
         if (!MicrointeractionsOn) { return; }
 
-        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.OutlineLoading_Action)
+        if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.OutlineLoading_Action)
         {
             OutlineLoading outlineLoader = mole.GetComponentInChildren<OutlineLoading>();
             if (outlineLoader != null)
@@ -138,7 +138,7 @@ public class MicrointeractionManager : MonoBehaviour
                 outlineLoader.ProgressFillEffect(dwellTime, dwellTimer);
             }
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MoleFill_Action)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MoleFill_Action)
         {
             MoleFill moleFiller = mole.GetComponentInChildren<MoleFill>();
             if (moleFiller != null)
@@ -152,7 +152,7 @@ public class MicrointeractionManager : MonoBehaviour
     {
         if (!MicrointeractionsOn) { return; }
 
-        if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.MolePulses_Operation)
+        if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MolePulses_Operation)
         {
             MolePulses pulses = disablingMole.GetComponentInChildren<MolePulses>();
             if (pulses != null)
@@ -160,7 +160,7 @@ public class MicrointeractionManager : MonoBehaviour
                 Destroy(pulses.gameObject);
             }
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.OutlineAnimation_Operation)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.OutlineAnimation_Operation)
         {
             OutlineAnimation animation = disablingMole.GetComponentInChildren<OutlineAnimation>();
             if (animation != null)
@@ -168,7 +168,7 @@ public class MicrointeractionManager : MonoBehaviour
                 Destroy(animation.gameObject);
             }
         }
-        else if (PatternFeedback.GetFeedbackType() == PatternFeedback.FeedbackType.OutlineLoading_Action)
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.OutlineLoading_Action)
         {
             OutlineLoading loadRing = disablingMole.GetComponentInChildren<OutlineLoading>();
             if (loadRing != null)
