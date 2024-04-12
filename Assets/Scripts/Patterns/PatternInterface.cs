@@ -104,8 +104,8 @@ public class PatternInterface : MonoBehaviour
                     CallStop();
                     break;
 
-                case "FINISH":
-                    ShowFinish();
+                case "COLORFADE":
+                    WallFade(action["COLOR"], ParseFloat(action["TIME"]));
                     break;
 
                 case "WALL":
@@ -113,12 +113,12 @@ public class PatternInterface : MonoBehaviour
                     break;
 
                 case "FEEDBACK":
-                    Debug.Log(action["TIME"] + " : " + action["TYPE"]);
+                    //Debug.Log(action["TIME"] + " : " + action["TYPE"]);
                     SetFeedback(action["TIME"], action["TYPE"]);
                     break;
 
                 case "MOLE":
-                    Debug.Log(action["X"] + action["Y"]);
+                    //Debug.Log(action["X"] + action["Y"]);
                     SetMole(action["X"], action["Y"], action["LIFETIME"]);
                     break;
 
@@ -171,9 +171,9 @@ public class PatternInterface : MonoBehaviour
         gameDirector.StopGame();
     }
 
-    public void ShowFinish()
+    public void WallFade(string flashColour, float fadeTime)
     {
-        wallManager.FinishFade();
+        wallManager.FadeWallColour(flashColour, fadeTime);
     }
 
     // Updates one or multiple Wall's properties

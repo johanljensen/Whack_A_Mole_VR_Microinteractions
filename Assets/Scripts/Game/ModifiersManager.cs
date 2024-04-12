@@ -115,7 +115,6 @@ public class ModifiersManager : MonoBehaviour
     private EyePatch eyePatch = EyePatch.None;
     private HideWall hideWall = HideWall.None;
     private ControllerSetup controllerSetup = ControllerSetup.Right;
-    private Microinteractions.FeedbackType performanceFeedback = Microinteractions.FeedbackType.None;
     private JudgementType judgementType = JudgementType.MaxSpeed;
     private bool mirrorEffect;
     private bool physicalMirrorEffect;
@@ -166,7 +165,7 @@ public class ModifiersManager : MonoBehaviour
             {"HideWall", System.Enum.GetName(typeof(ModifiersManager.HideWall), hideWall)},
             {"HideWallAmount", hideWallAmount},
             {"GeometricMirror", geometricMirrorEffect},
-            {"PerformanceFeedback", performanceFeedback},
+            {"PerformanceFeedback", Microinteractions.FeedbackType.None},
             {"JudgementType", judgementType}
         });
 
@@ -186,7 +185,7 @@ public class ModifiersManager : MonoBehaviour
         {"MotorRestriction", this.motorRestriction},
         {"MotorRestrictionUpper", this.motorRestrictionUpper},
         {"MotorRestrictionLower", this.motorRestrictionLower},
-        {"PerformanceFeedback", this.performanceFeedback},
+        {"PerformanceFeedback", Microinteractions.FeedbackType.None},
         {"JudgementType", this.judgementType},
         {"Embodiment", this.embodiment},
         };
@@ -621,8 +620,6 @@ public class ModifiersManager : MonoBehaviour
         });
 
         modifierUpdateEvent.Invoke($"PerformanceFeedback", Enum.GetName(typeof(Microinteractions.FeedbackType), value));
-
-        this.performanceFeedback = value;
     }
 
     public void SetJudgementType(JudgementType value)

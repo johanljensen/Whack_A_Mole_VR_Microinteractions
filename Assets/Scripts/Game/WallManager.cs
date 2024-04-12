@@ -171,6 +171,8 @@ public class WallManager : MonoBehaviour
 
     [SerializeField]
     Color finishFadeColour;
+    [SerializeField]
+    Color feedbackActivateColour;
 
     void Start()
     {
@@ -345,11 +347,26 @@ public class WallManager : MonoBehaviour
         return wallInfo;
     }
 
-    public void FinishFade()
+    public void FadeWallColour(string colour, float fadeTime)
     {
         if (wallGenerator != null)
         {
-            wallGenerator.FadeColour(finishFadeColour);
+            Color colourToFade = GetFadeColor(colour);
+            wallGenerator.FadeColour(colourToFade, fadeTime);
+        }
+    }
+
+    private Color GetFadeColor(string colourName)
+    {
+        switch(colourName.ToLower())
+        {
+            case "green":
+                return finishFadeColour;
+            case "grey":
+            case "gray":
+                return feedbackActivateColour;
+            default:
+                return Color.white;
         }
     }
 

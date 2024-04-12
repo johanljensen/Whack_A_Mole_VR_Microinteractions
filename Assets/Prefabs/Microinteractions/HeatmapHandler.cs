@@ -153,6 +153,7 @@ public class HeatmapHandler : MonoBehaviour
 
         List<List<(int id, float val)>> tierLists = new List<List<(int id, float val)>>() { tier5, tier4, tier3, tier2, tier1 };
 
+        float soundVolume = 0;
         foreach(var list in tierLists)
         {
             if (list.Count > 0)
@@ -160,9 +161,11 @@ public class HeatmapHandler : MonoBehaviour
                 foreach (var moleP in list)
                 {
                     moles[moleP.id].PlayFeedback(moleP.val, duration - timeSpent);
-                    soundManager.PlaySoundWithPitch(gameObject, SoundManager.Sound.greenMoleHit, moleP.val);
                     Debug.Log(moleP.val);
                 }
+
+                soundVolume += 1 / tierLists.Count;
+                soundManager.PlaySoundWithPitch(gameObject, SoundManager.Sound.greenMoleHit, soundVolume);
 
                 timeSpent += tierDelayTime;
                 yield return new WaitForSeconds(tierDelayTime);

@@ -166,45 +166,48 @@ public class WallGenerator : MonoBehaviour
         meshRenderer.material = meshMaterial;
     }
 
-    bool fadingColour = false;
-    float fadeTime = 1;
-    public void FadeColour(Color colorToFade)
+    bool isFadingColour = false;
+    public void FadeColour(Color colorToFade, float fadeTime)
     {
-        if (!fadingColour)
+        if (!isFadingColour)
         {
-            StartCoroutine(FadeColourCoroutine(colorToFade));
+            StartCoroutine(FadeColourCoroutine(colorToFade, fadeTime));
         }
     }
 
-    private IEnumerator FadeColourCoroutine(Color colorToFade)
+    private IEnumerator FadeColourCoroutine(Color colorToFade, float fadeTimeTotal)
     {
-        Debug.Log("fading time");
-        fadingColour = true;
+        //Debug.Log("fading time");
+        isFadingColour = true;
         Color startColour = meshRenderer.material.color;
         Color currentColour = startColour;
 
+        float fadeInTime = fadeTimeTotal * 0.4f;
+        float fadeStayTime = fadeTimeTotal * 0.4f;
+        float fadeOutTime = fadeTimeTotal * 0.2f;
+
         float fadeTimer = 0;
-        while(fadeTimer < fadeTime)
+        while(fadeTimer < fadeInTime)
         {
             fadeTimer += Time.deltaTime;
-            Debug.Log("Fading in: " + currentColour + " - " + colorToFade);
-            currentColour = Color.Lerp(startColour, colorToFade, fadeTimer / fadeTime);
+            //Debug.Log("Fading in: " + currentColour + " - " + colorToFade);
+            currentColour = Color.Lerp(startColour, colorToFade, fadeTimer / fadeInTime);
             meshRenderer.material.SetColor("_Color", currentColour);
             yield return null;
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(fadeStayTime);
 
         fadeTimer = 0;
-        while(fadeTimer < fadeTime) 
+        while(fadeTimer < fadeOutTime) 
         {
             fadeTimer += Time.deltaTime;
-            Debug.Log("fading out");
-            currentColour = Color.Lerp(colorToFade, startColour, fadeTimer / fadeTime);
+            //Debug.Log("fading out");
+            currentColour = Color.Lerp(colorToFade, startColour, fadeTimer / fadeOutTime);
             meshRenderer.material.SetColor("_Color", currentColour);
             yield return null;
         }
 
-        fadingColour = false;
+        isFadingColour = false;
     }
 }
