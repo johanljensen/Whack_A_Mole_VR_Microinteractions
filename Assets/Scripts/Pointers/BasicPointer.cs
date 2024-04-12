@@ -57,9 +57,10 @@ public class BasicPointer : Pointer
     */
 
     MicrointeractionManager microManager;
-    private void Awake()
+    protected override void Awake()
     {
         microManager = MicrointeractionManager.GetInstance();
+        base.Awake();
     }
 
     public void Update()

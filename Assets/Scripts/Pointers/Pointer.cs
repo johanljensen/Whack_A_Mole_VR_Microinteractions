@@ -122,7 +122,7 @@ public abstract class Pointer : MonoBehaviour
     public OnPointerMove onPointerMove;
 
     // On Awake, gets the cursor object if there is one. Also connects the PositionUpdated function to the VR update event.
-    void Awake()
+    protected virtual void Awake()
     {
         gameObject.GetComponent<SteamVR_Behaviour_Pose>().onTransformUpdated.AddListener(delegate { PositionUpdated(); });
         if (gameObject.name == "Controller (right)") {
