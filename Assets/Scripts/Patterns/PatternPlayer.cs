@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
@@ -264,11 +264,11 @@ public class PatternPlayer: MonoBehaviour
             // Otherwise, if the next action contains a mole, play the next step.
             // Otherwise, wait.
             //Debug.Log(action["FUNCTION"]);
-            if (action["FUNCTION"] == "MESSAGE" || action["FUNCTION"] == "FEEDBACK" ) {
+            if (action["FUNCTION"] == "MESSAGE" || action["FUNCTION"] == "FEEDBACK" || action["FUNCTION"] == "MODIFIER") {
                 waitForDuration = GetWaitTime(playIndex);
                 patternInterface.ResetTargetsList();
                 return;
-            } else if (action["FUNCTION"] == "MOLE" || action["FUNCTION"] == "FINISH") {
+            } else if (action["FUNCTION"] == "MOLE") {
                 waitForDuration = -1f;
                 waitTimeLeft = 0f;
                 continue;
