@@ -37,6 +37,8 @@ public class PatternPlayer: MonoBehaviour
 
     void Update()
     {
+        if(!isRunning) return;
+
         if (isRunning && isDebug) {
             UpdateDebugText("[Update] Pattern Playing..");
         }

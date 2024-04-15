@@ -132,6 +132,7 @@ public class PatternInterface : MonoBehaviour
 
                 case "MODIFIER":
                     SetModifier(action);
+                    wallManager.disableMoles();
                     break;
 
                 case "SEGMENT":

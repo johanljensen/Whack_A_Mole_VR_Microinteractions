@@ -498,7 +498,7 @@ public class WallManager : MonoBehaviour
     {
         return moles;
     }
-    private void disableMoles()
+    public void disableMoles()
     {
         foreach (Mole mole in moles.Values)
         {
