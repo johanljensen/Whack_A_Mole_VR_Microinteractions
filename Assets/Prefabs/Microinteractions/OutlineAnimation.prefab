@@ -53,11 +53,10 @@ MonoBehaviour:
   animSprite: {fileID: 6620321743193775235}
   minScale: 0.1
   maxScale: 0.15
-  speedScale: 3
-  animSpeed: 0
+  speedScale: 5
   viewAngleMax: 45
   viewAngleMin: 12
-  useCursorDistance: 1
+  useCursorDistance: 0
 --- !u!1 &5377249804141033713
 GameObject:
   m_ObjectHideFlags: 0

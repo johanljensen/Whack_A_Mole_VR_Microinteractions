@@ -47,10 +47,14 @@ public class OutlineAnimation : MonoBehaviour
 
         while(true)
         {
-            animTimer = 0;
             UpdatePulseSpeed();
+            while(animSpeed == 0)
+            {
+                yield return null;
+                UpdatePulseSpeed();
+            }
 
-            while(pulseOut)
+            if(pulseOut)
             {
                 animTimer += Time.deltaTime;
                 float animScale = Mathf.Lerp(minScale, maxScale, animTimer * animSpeed);
@@ -61,13 +65,10 @@ public class OutlineAnimation : MonoBehaviour
                 if(animScale >= maxScale)
                 {
                     pulseOut = false;
+                    animTimer = 0;
                 }
             }
-
-            animTimer = 0;
-            UpdatePulseSpeed();
-
-            while(!pulseOut)
+            else if(!pulseOut)
             {
                 animTimer += Time.deltaTime;
                 float animScale = Mathf.Lerp(maxScale, minScale, animTimer * animSpeed);
@@ -78,6 +79,7 @@ public class OutlineAnimation : MonoBehaviour
                 if (animScale <= minScale)
                 {
                     pulseOut = true;
+                    animTimer = 0;
                 }
             }
         }
@@ -86,7 +88,7 @@ public class OutlineAnimation : MonoBehaviour
     private void UpdatePulseSpeed()
     {
         Vector3 lookingDirection = headCamera.transform.forward;
-        Vector3 relativeDirection = headCamera.position - transform.position;
+        Vector3 relativeDirection = transform.position - headCamera.position;
 
         float viewAngle = Vector3.Angle(lookingDirection, relativeDirection);
 
@@ -96,6 +98,9 @@ public class OutlineAnimation : MonoBehaviour
         {
             animSpeed = (viewAngle - viewAngleMin) / (viewAngleMax - viewAngleMin);
         }
+
+        Debug.Log(headCamera.name);
+        Debug.Log(viewAngle + " : " + animSpeed);
 
         if (useCursorDistance)
         {
