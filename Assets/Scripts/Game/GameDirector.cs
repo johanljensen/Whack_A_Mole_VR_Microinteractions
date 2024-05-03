@@ -266,6 +266,11 @@ public class GameDirector : MonoBehaviour
         return participantId;
     }
 
+    public GameState GetGameState()
+    {
+        return gameState;
+    }
+
     public void SetTest(int test)
     {
         testId = test;
@@ -330,6 +335,8 @@ public class GameDirector : MonoBehaviour
         StopAllCoroutines();
         wallManager.Disable();
         modifiersManager.SetDefaultModifiers();
+
+        MicrointeractionManager.GetInstance().MicrointeractionEndOldModifier();
     }
 
     private void SpawnMole(float lifeTime, bool fakeCoeff)

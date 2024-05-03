@@ -132,7 +132,7 @@ public class PatternInterface : MonoBehaviour
 
                 case "MODIFIER":
                     SetModifier(action);
-                    wallManager.disableMoles();
+                    //wallManager.DisableMoles(); //Only useful for depleted moles microinteraction enhancement
                     break;
 
                 case "SEGMENT":

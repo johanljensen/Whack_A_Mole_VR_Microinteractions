@@ -190,6 +190,22 @@ public class MotorSpaceManager : MonoBehaviour
         }
     }
 
+    public List<Pointer> GetActiveControllers()
+    {
+        List<Pointer> returnList = new List<Pointer>();
+
+        if (motorspace == ActiveMotorSpace.Right)
+            returnList.Add(MotorSpaceRight.GetCurrentController().GetComponent<Pointer>());
+        else if (motorspace == ActiveMotorSpace.Left)
+            returnList.Add(MotorSpaceLeft.GetCurrentController().GetComponent<Pointer>());
+        else if (motorspace == ActiveMotorSpace.Both)
+        {
+            returnList.Add(MotorSpaceRight.GetCurrentController().GetComponent<Pointer>());
+            returnList.Add(MotorSpaceLeft.GetCurrentController().GetComponent<Pointer>());
+        }
+        return returnList;
+    }
+
     public void SetMotorSpaceOutOfBoundsSignifierStatic()
     {
         if(motorspace == ActiveMotorSpace.Right)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static Mole;
 
@@ -8,11 +9,11 @@ public class MicrointeractionManager : MonoBehaviour
     public static MicrointeractionManager Instance;
     public static MicrointeractionManager GetInstance()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = FindObjectOfType<MicrointeractionManager>();
 
-            if(Instance == null)
+            if (Instance == null)
             {
                 Debug.LogError("Could not find MicrointeractionManager in the scene hierarchy");
             }
@@ -45,10 +46,37 @@ public class MicrointeractionManager : MonoBehaviour
     GuidingWhistle guidingWhistlePrefab;
     [SerializeField]
     ShootToNext shootToNextPrefab;
+    [SerializeField]
+    PointerFinder pointerFinderPrefab;
+    [SerializeField]
+    MovementGuide movementGuidePrefab;
+
+    public void MicrointeractionEndOldModifier()
+    {
+        if (!MicrointeractionsOn) { return; }
+
+        if(Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MovementGuide_Operation)
+        {
+            MovementGuide moveGuide = FindObjectOfType<MovementGuide>();
+            Destroy(moveGuide);
+        }
+    }
+
+    public void MicroInteractionStartNewModifier()
+    {
+        if (!MicrointeractionsOn) { return; }
+
+        if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MovementGuide_Operation)
+        {
+            MovementGuide moveGuide = Instantiate(movementGuidePrefab);
+            moveGuide.SetTransform();
+            moveGuide.StartGuide();
+        }
+    }
 
     public void MicroInteractionMoleSpawn(Mole newMole)
     {
-        if(!MicrointeractionsOn) { return; }
+        if (!MicrointeractionsOn) { return; }
 
         if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MolePulses_Operation)
         {
@@ -93,6 +121,12 @@ public class MicrointeractionManager : MonoBehaviour
                 shootToNextInstance.ShootToNewMole(newMole);
             }
         }
+        else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.PointerFinder_Operation)
+        {
+            PointerFinder finder = Instantiate(pointerFinderPrefab);
+            finder.SetTransform(newMole.transform);
+            finder.StartFinder(newMole.transform);
+        }
     }
 
     public void MicrointeractionMolePopComplete(Mole poppedMole, Material meshMaterial,
@@ -103,11 +137,10 @@ public class MicrointeractionManager : MonoBehaviour
         Debug.Log(Microinteractions.GetSelectedFeedback());
         if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.CheckmarkPop_Action)
         {
-            
             CheckmarkPop checkmarkPop = Instantiate(checkmarkPopPrefab);
             checkmarkPop.SetTransform(poppedMole.transform);
             checkmarkPop.StartFeedback(enabledColor, colorFeedback, disabledColor, meshMaterial, 0.15f, 0.15f, feedback);
-            
+
         }
         else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MoleExplode_Action)
         {
@@ -126,13 +159,18 @@ public class MicrointeractionManager : MonoBehaviour
         }
     }
 
+    OutlineLoading outlineLoader;
+    MoleFill moleFiller;
     public void MicrointeractionMolePopProgress(Mole mole, float dwellTime, float dwellTimer)
     {
         if (!MicrointeractionsOn) { return; }
 
         if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.OutlineLoading_Action)
         {
-            OutlineLoading outlineLoader = mole.GetComponentInChildren<OutlineLoading>();
+            if (outlineLoader == null)
+            {
+                outlineLoader = mole.GetComponentInChildren<OutlineLoading>();
+            }
             if (outlineLoader != null)
             {
                 outlineLoader.ProgressFillEffect(dwellTime, dwellTimer);
@@ -140,7 +178,10 @@ public class MicrointeractionManager : MonoBehaviour
         }
         else if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MoleFill_Action)
         {
-            MoleFill moleFiller = mole.GetComponentInChildren<MoleFill>();
+            if (moleFiller == null)
+            {
+                moleFiller = mole.GetComponentInChildren<MoleFill>();
+            }
             if (moleFiller != null)
             {
                 moleFiller.ProgressFillEffect(dwellTime, dwellTimer);
@@ -174,6 +215,14 @@ public class MicrointeractionManager : MonoBehaviour
             if (loadRing != null)
             {
                 Destroy(loadRing.gameObject);
+            }
+        }
+        else
+        {
+            PointerFinder finder = FindObjectOfType<PointerFinder>();
+            if (finder != null)
+            {
+                Destroy(finder.gameObject);
             }
         }
     }

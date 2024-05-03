@@ -94,7 +94,10 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySoundWithPitch(GameObject source, Sound sound, float feedback)
     {
+        Debug.Log("Feedback: " + feedback);
+
         float pitchValue = (feedback * 0.47f) + 0.7f;
+        Debug.Log("Pitch: " + pitchValue);
         AudioSource _audioSource = source.GetComponent<AudioSource>();
         if (source == null)
         {

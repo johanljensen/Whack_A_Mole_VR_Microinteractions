@@ -178,7 +178,7 @@ public abstract class Pointer : MonoBehaviour
         // duration in seconds
         // frequency in hz
         // amplitude in 75
-
+        Debug.Log(duration);
         hapticAction.Execute(0, duration, frequency, amplitude, controller);
     }
 

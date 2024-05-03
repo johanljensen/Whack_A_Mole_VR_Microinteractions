@@ -17,25 +17,26 @@ public static class Microinteractions
         MoleFill_Action,
         CheckmarkPop_Action,
         MoleDepleted_Action,
-        ShootToNext_Action
+        ShootToNext_Action,
+        MovementGuide_Operation,
+        PointerFinder_Operation
     }
 
     private static FeedbackType selectedFeedback = FeedbackType.None;
 
     public static void SetFeedbackType(FeedbackType newType)
     {
+        MicrointeractionManager.GetInstance().MicrointeractionEndOldModifier();
         selectedFeedback = newType;
+        MicrointeractionManager.GetInstance().MicroInteractionStartNewModifier();
     }
 
     public static FeedbackType GetSelectedFeedback()
-    {
-        return selectedFeedback;
-    }
-
+    { return selectedFeedback; }
 
     private static bool vibrateController = false;
     public static void SetShouldVibrateController(bool setState)
-    {  vibrateController = setState; }
+    { vibrateController = setState; }
     public static bool ShouldVibrateController()
     { return vibrateController; }
 

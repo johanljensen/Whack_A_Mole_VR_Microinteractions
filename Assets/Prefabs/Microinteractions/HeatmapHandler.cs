@@ -8,7 +8,8 @@ public class HeatmapHandler : MonoBehaviour
     [SerializeField]
     Material lineMaterial;
 
-    public void ProcessTaskHeatmap(string feedbackType, Dictionary<int, Mole> moles, PerfData perfLeft, PerfData perfRight, List<(int id, float val)> molePerf, float duration, SoundManager soundManager)
+    public void ProcessTaskHeatmap(string feedbackType, Dictionary<int, Mole> moles, PerfData perfLeft, PerfData perfRight,
+        List<(int id, float val)> molePerf, float duration, SoundManager soundManager, MotorSpaceManager motorSpaceManager)
     {
         Debug.Log("Yes3");
         // TODO: Currently mole performance is just averaged across both controllers.
@@ -43,24 +44,27 @@ public class HeatmapHandler : MonoBehaviour
             Debug.Log(moleP.id + " : " + moleP.val);
         }
 
+        List<Pointer> controllers = motorSpaceManager.GetActiveControllers();
+
         Debug.Log(feedbackType);
         switch(feedbackType)
         {
             case "HeatmapOrder":
-                StartCoroutine(ShowOrderFeedback(moles, duration, molePerf, 0.15f, soundManager));
+                StartCoroutine(ShowOrderFeedback(moles, duration, molePerf, 0.15f, soundManager, controllers));
                 break;
             case "HeatmapChart":
-                StartCoroutine(ShowChartFeedback(moles, duration, molePerf, 0.15f, soundManager));
+                StartCoroutine(ShowChartFeedback(moles, duration, molePerf, 0.15f, soundManager, controllers));
                 break;
             case "HeatmapTier":
-                StartCoroutine(ShowTierFeedback(moles, duration, molePerf, 0.15f, soundManager));
+                StartCoroutine(ShowTierFeedback(moles, duration, molePerf, 0.15f, soundManager, controllers));
                 break;
             default:
                 break;
         }
     }
 
-    private IEnumerator ShowOrderFeedback(Dictionary<int, Mole> moles, float duration, List<(int id, float val)> molePerf, float animationDelay, SoundManager soundManager)
+    private IEnumerator ShowOrderFeedback(Dictionary<int, Mole> moles, float duration, List<(int id, float val)> molePerf,
+        float animationDelay, SoundManager soundManager, List<Pointer> controllers)
     {
         float timeSpent = 0f;
 
@@ -70,13 +74,19 @@ public class HeatmapHandler : MonoBehaviour
             {
                 moles[fb.id].PlayFeedback(fb.val, duration - timeSpent);
                 soundManager.PlaySoundWithPitch(gameObject, SoundManager.Sound.greenMoleHit, fb.val);
+
+                foreach(Pointer controller in controllers)
+                { controller.Pulse(.1f, 150, fb.val * 50); }
+
                 timeSpent += animationDelay;
                 yield return new WaitForSeconds(animationDelay);
             }
         }
+
     }
 
-    private IEnumerator ShowChartFeedback(Dictionary<int, Mole> moles, float duration, List<(int id, float val)> molePerf, float animationDelay, SoundManager soundManager)
+    private IEnumerator ShowChartFeedback(Dictionary<int, Mole> moles, float duration, List<(int id, float val)> molePerf,
+        float animationDelay, SoundManager soundManager, List<Pointer> controllers)
     {
         Debug.Log("CHART CHART CHART");
         float timeSpent = 0f;
@@ -113,6 +123,9 @@ public class HeatmapHandler : MonoBehaviour
                 nextMole.PlayFeedback(fb.val, duration - timeSpent);
                 soundManager.PlaySoundWithPitch(gameObject, SoundManager.Sound.greenMoleHit, fb.val);
 
+                foreach (Pointer controller in controllers)
+                { controller.Pulse(.2f, 150, fb.val * 50); }
+
                 timeSpent += animationDelay;
                 prevMole = nextMole;
                 yield return new WaitForSeconds(animationDelay);
@@ -128,7 +141,8 @@ public class HeatmapHandler : MonoBehaviour
     }
 
 
-    private IEnumerator ShowTierFeedback(Dictionary<int, Mole> moles, float duration, List<(int id, float val)> molePerf, float animationDelay, SoundManager soundManager)
+    private IEnumerator ShowTierFeedback(Dictionary<int, Mole> moles, float duration, List<(int id, float val)> molePerf,
+        float animationDelay, SoundManager soundManager, List<Pointer> controllers)
     {
         float timeSpent = 0f;
         float tierDelayTime = 1.5f;
@@ -164,8 +178,11 @@ public class HeatmapHandler : MonoBehaviour
                     Debug.Log(moleP.val);
                 }
 
-                soundVolume += 1 / tierLists.Count;
+                soundVolume += 1f / tierLists.Count;
                 soundManager.PlaySoundWithPitch(gameObject, SoundManager.Sound.greenMoleHit, soundVolume);
+
+                foreach (Pointer controller in controllers)
+                { controller.Pulse(tierDelayTime / 2, 150, soundVolume * 50); }
 
                 timeSpent += tierDelayTime;
                 yield return new WaitForSeconds(tierDelayTime);

@@ -311,7 +311,7 @@ public class WallManager : MonoBehaviour
     public void Disable()
     {
         active = false;
-        disableMoles();
+        DisableMoles();
     }
 
     public void Clear()
@@ -476,8 +476,8 @@ public class WallManager : MonoBehaviour
         // Ordered list of moleIDs and their performance value.
         List<(int id, float val)> molePerf = new List<(int id, float val)>();
 
-        heatmapHandler.ProcessTaskHeatmap(feedbackType, moles, perfL, perfR, molePerf, duration, soundManager);
-        motorspaceManager.ShowTaskFeedback(duration, molePerf, 0.15f);
+        heatmapHandler.ProcessTaskHeatmap(feedbackType, moles, perfL, perfR, molePerf, duration, soundManager, motorspaceManager);
+        //motorspaceManager.ShowTaskFeedback(duration, molePerf, 0.15f);
     }
 
     // Returns a random, inactive Mole. Can block the game if no Mole can be found. May need to be put in a coroutine.
@@ -498,7 +498,7 @@ public class WallManager : MonoBehaviour
     {
         return moles;
     }
-    public void disableMoles()
+    public void DisableMoles()
     {
         foreach (Mole mole in moles.Values)
         {

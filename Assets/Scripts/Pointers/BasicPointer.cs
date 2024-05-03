@@ -149,9 +149,10 @@ public class BasicPointer : Pointer
             cursor.SetPosition(rayPosition);
             //UpdateLaser(false, rayDirection: laserOrigin.transform.InverseTransformDirection(rayDirection) * maxLaserLength);
         }
+
         //if (SteamVR.active)
         //{
-            if (hit.collider)
+        if (hit.collider)
             {
                 Mole mole;
                 if (hit.collider.gameObject.TryGetComponent<Mole>(out mole))

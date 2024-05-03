@@ -111,8 +111,6 @@ public class DiskMole : Mole
 
     protected override void PlayEnabling()
     {
-        Debug.Log("Mole enabled");
-
         PlaySound(enableSound);
         PlayAnimation("EnableDisable");
 
