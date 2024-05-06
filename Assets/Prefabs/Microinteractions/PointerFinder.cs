@@ -24,14 +24,27 @@ public class PointerFinder : MonoBehaviour
     float effectSpeed;
 
     [SerializeField]
-    Transform arrowSprite;
+    LineRenderer lineRenderer;
+    [SerializeField]
+    Color lineColor;
 
-    public void SetTransform(Transform cursorTransform)
+    [SerializeField]
+    float maxAlpha = 50;
+    float currentAlpha = 0;
+    [SerializeField]
+    float alphaFactor = 0.2f;
+    [SerializeField]
+    float lineWidth = 0.2f;
+
+    private void Awake()
     {
-        transform.position = cursorTransform.position;
-        //transform.parent = cursorTransform;
+        lineRenderer = GetComponentInChildren<LineRenderer>();
+    }
 
-        arrowSprite.gameObject.SetActive(false);
+    public void SetTransform(Transform moleTransform)
+    {
+        transform.position = moleTransform.position;
+        transform.parent = moleTransform;
     }
 
     public void StartFinder(Transform moleTransform)
@@ -59,8 +72,47 @@ public class PointerFinder : MonoBehaviour
             //Debug.Log(viewAngle + " : " + viewAngleToActivate + " - " + (viewAngle < viewAngleToActivate));
             //Debug.Log(pointerDistance + " : " + minDistanceToShow + " - " + (pointerDistance > minDistanceToShow));
 
+
+            lineRenderer.startWidth = lineWidth;
+            lineRenderer.endWidth = lineWidth;
+
+            //Debug.Log("Looking for condition");
+
             if (viewAngle < viewAngleToActivate && pointerDistance > minDistanceToShow)
             {
+                lineRenderer.enabled = true;
+                //Debug.Log("Updating line");
+
+                Vector3[] positions = new Vector3[] { activeMole.position, playerCursor.position };
+                lineRenderer.SetPositions(positions);
+
+                Debug.Log("Distance: " + (pointerDistance-minDistanceToShow));
+                float desiredAlpha = (pointerDistance - minDistanceToShow) * alphaFactor;
+                Debug.Log("Current Alpha: " + currentAlpha);
+                Debug.Log("Desired Alpha: " + desiredAlpha);
+                if(desiredAlpha > maxAlpha) { desiredAlpha = maxAlpha; }
+
+                currentAlpha = Mathf.Lerp(currentAlpha, desiredAlpha, alphaFactor);
+
+                Gradient lineGradient = new Gradient();
+                lineGradient.colorKeys = new GradientColorKey[]
+                {
+                    new GradientColorKey(lineColor, 1.0f),
+                    new GradientColorKey(lineColor, 0.0f)
+                };
+
+                lineGradient.alphaKeys = new GradientAlphaKey[] { 
+                    new GradientAlphaKey(currentAlpha, 1.0f),
+                    new GradientAlphaKey(currentAlpha, 0.1f),
+                    new GradientAlphaKey(0.0f, 0.0f)
+                };
+
+                //lineRenderer.startColor = startColor;
+                //lineRenderer.endColor = endColor;
+
+                lineRenderer.colorGradient = lineGradient;
+
+                /*PointerArrow version
                 Debug.Log("CONFIRM FINDER");
                 arrowSprite.gameObject.SetActive(true);
 
@@ -80,9 +132,14 @@ public class PointerFinder : MonoBehaviour
                 }
 
                 arrowSprite.gameObject.SetActive(false);
+                */
+            }
+            else
+            {
+                lineRenderer.enabled = false;
             }
 
-            yield return new WaitForSeconds(.1f);
+            yield return null;
         }
     }
 }

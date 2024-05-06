@@ -219,7 +219,7 @@ public class MicrointeractionManager : MonoBehaviour
         }
         else
         {
-            PointerFinder finder = FindObjectOfType<PointerFinder>();
+            PointerFinder finder = disablingMole.GetComponentInChildren<PointerFinder>();
             if (finder != null)
             {
                 Destroy(finder.gameObject);
