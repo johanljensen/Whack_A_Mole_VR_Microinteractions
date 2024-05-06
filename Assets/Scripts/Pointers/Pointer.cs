@@ -350,7 +350,8 @@ public abstract class Pointer : MonoBehaviour
                     }
                     else
                     {
-                        soundManager.PlaySound(gameObject, SoundManager.Sound.greenMoleHit);
+                        //Disable sound on pop to focus on Microinteraction
+                        //soundManager.PlaySound(gameObject, SoundManager.Sound.greenMoleHit);
                     }
                 }
                 else if (moleAnswer == Mole.MolePopAnswer.Fake)

@@ -280,7 +280,8 @@ public class BasicPointer : Pointer
             newColor = shootColor;
         }
 
-        StartCoroutine(PlayShootAnimation(.5f, newColor));
+        //Disabled for Microinteraction test
+        //StartCoroutine(PlayShootAnimation(.5f, newColor));
     }
 
     // Ease function, Quart ratio.

@@ -206,7 +206,8 @@ public class DiskMole : Mole
         meshMaterial.color = disabledColor;
 
         MicrointeractionManager.GetInstance().MicrointeractionMolePopComplete(this, meshMaterial, enabledColor, colorFeedback, disabledColor, feedbackLowColor, feedback);
-        PlaySound(popSound);
+        //Disabled for Microninteraction test
+        //PlaySound(popSound);
         //base.PlayPop(); // we cannot change to popped state, this breaks WAIT:HIT for some reason.
 
         if (microManager != null)
