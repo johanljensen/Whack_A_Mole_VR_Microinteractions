@@ -58,7 +58,7 @@ public class MicrointeractionManager : MonoBehaviour
         if(Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.MovementGuide_Operation)
         {
             MovementGuide moveGuide = FindObjectOfType<MovementGuide>();
-            Destroy(moveGuide);
+            Destroy(moveGuide.gameObject);
         }
     }
 
@@ -134,7 +134,6 @@ public class MicrointeractionManager : MonoBehaviour
     {
         if (!MicrointeractionsOn) { return; }
 
-        Debug.Log(Microinteractions.GetSelectedFeedback());
         if (Microinteractions.GetSelectedFeedback() == Microinteractions.FeedbackType.CheckmarkPop_Action)
         {
             CheckmarkPop checkmarkPop = Instantiate(checkmarkPopPrefab);

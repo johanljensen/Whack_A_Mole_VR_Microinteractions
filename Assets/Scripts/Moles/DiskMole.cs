@@ -139,7 +139,7 @@ public class DiskMole : Mole
 
     protected override void PlayDisabling()
     {
-        Debug.Log("Mole disabled");
+        //Debug.Log("Mole disabled");
         PlaySound(enableSound);
         PlayAnimation("EnableDisable"); // Don't show any feedback to users when an incorrect moles expires
         meshMaterial.color = disabledColor;
@@ -176,7 +176,6 @@ public class DiskMole : Mole
 
     protected override void PlayHoverLeave()
     {
-        Debug.Log("STOP HOVERING ON MOLE");
         if (moleType == Mole.MoleType.Target)
         {
             meshMaterial.color = enabledColor;

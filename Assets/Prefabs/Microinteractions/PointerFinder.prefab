@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e40be55ebdeacc408e0c342a1e5c4a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewAngleToActivate: 15
+  viewAngleToActivate: 25
   minDistanceToShow: 3
   effectSpeed: 0.5
   lineRenderer: {fileID: 0}

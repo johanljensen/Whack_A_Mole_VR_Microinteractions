@@ -35,7 +35,7 @@ public class OutlineLoading : MonoBehaviour
 
     private void UpdateOutlineFill(float progress)
     {
-        Debug.Log(progress);
+        //Debug.Log(progress);
 
         isBeingUpdated = true;
         outlineImage.fillAmount = progress;

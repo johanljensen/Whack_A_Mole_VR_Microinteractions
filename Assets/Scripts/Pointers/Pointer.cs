@@ -336,8 +336,8 @@ public abstract class Pointer : MonoBehaviour
             {
                 float feedback = performanceManager.GetActionJudgement(controllerName);
                 float perf = performanceManager.GetActionPerformance(controllerName);
-                Debug.Log(feedback);
-                Debug.Log("perf: " + perf.ToString());
+                //Debug.Log(feedback);
+                //Debug.Log("perf: " + perf.ToString());
                 Mole.MolePopAnswer moleAnswer = mole.Pop(hit.point, feedback, perf);
 
                 if (moleAnswer == Mole.MolePopAnswer.Ok)

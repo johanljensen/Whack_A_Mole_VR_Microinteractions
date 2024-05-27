@@ -99,8 +99,8 @@ public class OutlineAnimation : MonoBehaviour
             animSpeed = (viewAngle - viewAngleMin) / (viewAngleMax - viewAngleMin);
         }
 
-        Debug.Log(headCamera.name);
-        Debug.Log(viewAngle + " : " + animSpeed);
+        //Debug.Log(headCamera.name);
+        //Debug.Log(viewAngle + " : " + animSpeed);
 
         if (useCursorDistance)
         {

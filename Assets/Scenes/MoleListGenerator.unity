@@ -491,12 +491,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 237ac00bc1afe6a47a6261d8eb332449, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfMoles: 25
-  wallWidth: 9
-  wallHeight: 5
-  moleLifetime: 5
+  numberOfMoles: 35
+  wallWidth: 17
+  wallHeight: 7
+  moleLifetime: 7
   allowMoleReuse: 0
-  newMoleMinimumOffset: 3
+  allowCenterMole: 0
+  newMoleMinimumOffset: 9
   textBox: {fileID: 2072923702}
   generateText: 0
 --- !u!4 &1978710159
@@ -585,119 +586,166 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'MOLE:(X = 4, Y = 4, LIFETIME = 5) //1
+  m_Text: 'MOLE:(X = 13, Y = 3, LIFETIME = 7) //1
 
     WAIT:(HIT)
 
-    MOLE:(X = 7,
-    Y = 2, LIFETIME = 5) //2
+    MOLE:(X =
+    4, Y = 2, LIFETIME = 7) //2
 
     WAIT:(HIT)
 
-    MOLE:(X = 4, Y = 1, LIFETIME =
-    5) //3
+    MOLE:(X = 17, Y = 2, LIFETIME
+    = 7) //3
 
     WAIT:(HIT)
 
-    MOLE:(X = 2, Y = 3, LIFETIME = 5) //4
-
-    WAIT:(HIT)
-
-    MOLE:(X
-    = 9, Y = 4, LIFETIME = 5) //5
-
-    WAIT:(HIT)
-
-    MOLE:(X = 6, Y = 1, LIFETIME
-    = 5) //6
-
-    WAIT:(HIT)
-
-    MOLE:(X = 8, Y = 5, LIFETIME = 5) //7
+    MOLE:(X = 5, Y = 4, LIFETIME = 7) //4
 
     WAIT:(HIT)
 
     MOLE:(X
-    = 3, Y = 4, LIFETIME = 5) //8
+    = 17, Y = 5, LIFETIME = 7) //5
 
     WAIT:(HIT)
 
-    MOLE:(X = 5, Y = 1, LIFETIME
-    = 5) //9
+    MOLE:(X = 4, Y = 6, LIFETIME
+    = 7) //6
 
     WAIT:(HIT)
 
-    MOLE:(X = 5, Y = 4, LIFETIME = 5) //10
-
-    WAIT:(HIT)
-
-    MOLE:(X
-    = 1, Y = 4, LIFETIME = 5) //11
-
-    WAIT:(HIT)
-
-    MOLE:(X = 8, Y = 2, LIFETIME
-    = 5) //12
-
-    WAIT:(HIT)
-
-    MOLE:(X = 2, Y = 4, LIFETIME = 5) //13
+    MOLE:(X = 11, Y = 3, LIFETIME = 7) //7
 
     WAIT:(HIT)
 
     MOLE:(X
-    = 2, Y = 1, LIFETIME = 5) //14
+    = 2, Y = 3, LIFETIME = 7) //8
 
     WAIT:(HIT)
 
-    MOLE:(X = 5, Y = 3, LIFETIME
-    = 5) //15
+    MOLE:(X = 17, Y = 3, LIFETIME
+    = 7) //9
 
     WAIT:(HIT)
 
-    MOLE:(X = 6, Y = 5, LIFETIME = 5) //16
-
-    WAIT:(HIT)
-
-    MOLE:(X
-    = 3, Y = 5, LIFETIME = 5) //17
-
-    WAIT:(HIT)
-
-    MOLE:(X = 8, Y = 4, LIFETIME
-    = 5) //18
-
-    WAIT:(HIT)
-
-    MOLE:(X = 9, Y = 2, LIFETIME = 5) //19
+    MOLE:(X = 8, Y = 3, LIFETIME = 7) //10
 
     WAIT:(HIT)
 
     MOLE:(X
-    = 3, Y = 3, LIFETIME = 5) //20
+    = 17, Y = 6, LIFETIME = 7) //11
 
     WAIT:(HIT)
 
-    MOLE:(X = 6, Y = 4, LIFETIME
-    = 5) //21
+    MOLE:(X = 7, Y = 1, LIFETIME
+    = 7) //12
 
     WAIT:(HIT)
 
-    MOLE:(X = 1, Y = 3, LIFETIME = 5) //22
+    MOLE:(X = 16, Y = 4, LIFETIME = 7) //13
 
     WAIT:(HIT)
 
     MOLE:(X
-    = 8, Y = 1, LIFETIME = 5) //23
+    = 8, Y = 1, LIFETIME = 7) //14
 
     WAIT:(HIT)
 
-    MOLE:(X = 7, Y = 5, LIFETIME
-    = 5) //24
+    MOLE:(X = 3, Y = 7, LIFETIME
+    = 7) //15
 
     WAIT:(HIT)
 
-    MOLE:(X = 7, Y = 1, LIFETIME = 5) //25
+    MOLE:(X = 15, Y = 2, LIFETIME = 7) //16
+
+    WAIT:(HIT)
+
+    MOLE:(X
+    = 7, Y = 3, LIFETIME = 7) //17
+
+    WAIT:(HIT)
+
+    MOLE:(X = 2, Y = 7, LIFETIME
+    = 7) //18
+
+    WAIT:(HIT)
+
+    MOLE:(X = 14, Y = 1, LIFETIME = 7) //19
+
+    WAIT:(HIT)
+
+    MOLE:(X
+    = 4, Y = 7, LIFETIME = 7) //20
+
+    WAIT:(HIT)
+
+    MOLE:(X = 12, Y = 2, LIFETIME
+    = 7) //21
+
+    WAIT:(HIT)
+
+    MOLE:(X = 7, Y = 7, LIFETIME = 7) //22
+
+    WAIT:(HIT)
+
+    MOLE:(X
+    = 10, Y = 1, LIFETIME = 7) //23
+
+    WAIT:(HIT)
+
+    MOLE:(X = 4, Y = 5, LIFETIME
+    = 7) //24
+
+    WAIT:(HIT)
+
+    MOLE:(X = 14, Y = 3, LIFETIME = 7) //25
+
+    WAIT:(HIT)
+
+    MOLE:(X
+    = 4, Y = 4, LIFETIME = 7) //26
+
+    WAIT:(HIT)
+
+    MOLE:(X = 14, Y = 5, LIFETIME
+    = 7) //27
+
+    WAIT:(HIT)
+
+    MOLE:(X = 2, Y = 1, LIFETIME = 7) //28
+
+    WAIT:(HIT)
+
+    MOLE:(X
+    = 11, Y = 2, LIFETIME = 7) //29
+
+    WAIT:(HIT)
+
+    MOLE:(X = 2, Y = 4, LIFETIME
+    = 7) //30
+
+    WAIT:(HIT)
+
+    MOLE:(X = 13, Y = 1, LIFETIME = 7) //31
+
+    WAIT:(HIT)
+
+    MOLE:(X
+    = 8, Y = 5, LIFETIME = 7) //32
+
+    WAIT:(HIT)
+
+    MOLE:(X = 15, Y = 7, LIFETIME
+    = 7) //33
+
+    WAIT:(HIT)
+
+    MOLE:(X = 3, Y = 5, LIFETIME = 7) //34
+
+    WAIT:(HIT)
+
+    MOLE:(X
+    = 12, Y = 3, LIFETIME = 7) //35
 
     WAIT:(HIT)
 

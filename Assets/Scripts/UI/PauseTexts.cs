@@ -16,23 +16,20 @@ public class PauseTexts : MonoBehaviour
     [InspectorButton("OnButtonClickedWait")]
     public bool SetTextWait;
 
-    [InspectorButton("OnButtonClickedAlgo")]
-    public bool setTextAlgorithm;
+    [InspectorButton("OnButtonClickedDescribe")]
+    public bool setTextDescribe;
 
-    [InspectorButton("OnButtonClickedExplain")]
-    public bool setTextExplain;
+    [InspectorButton("OnButtonClickedAffect")]
+    public bool setTextAffect;
 
-    [InspectorButton("OnButtonClickedHowMuch")]
-    public bool setTextHowMuchFeedback;
-
-    [InspectorButton("OnButtonClickedHowFeel")]
-    public bool setTextHowGoodFeedback;
+    [InspectorButton("OnButtonClickedDifficulty")]
+    public bool setTextDifficulty;
 
 
     private void OnEnable()
     {
         instructionText = GetComponent<Text>();
-        //SetText(pauseTexts.PleaseWaitText);
+        SetText(pauseTexts.PleaseWaitText);
     }
 
     public void SetText(string newText)
@@ -49,24 +46,19 @@ public class PauseTexts : MonoBehaviour
         SetText(pauseTexts.PleaseWaitText);
         Debug.Log(pauseTexts.PleaseWaitText);
     }
-    private void OnButtonClickedAlgo()
+    private void OnButtonClickedDescribe()
     {
-        SetText(pauseTexts.AlgorithmRateText);
-        Debug.Log(pauseTexts.AlgorithmRateText);
+        SetText(pauseTexts.DescribeEffectPlease);
+        Debug.Log(pauseTexts.DescribeEffectPlease);
     }
-    private void OnButtonClickedExplain()
+    private void OnButtonClickedAffect()
     {
-        SetText(pauseTexts.PleaseExplainText);
-        Debug.Log(pauseTexts.PleaseExplainText);
+        SetText(pauseTexts.AffectYourGameplay);
+        Debug.Log(pauseTexts.AffectYourGameplay);
     }
-    private void OnButtonClickedHowMuch()
+    private void OnButtonClickedDifficulty()
     {
-        SetText(pauseTexts.HowMuchFeedbackText);
-        Debug.Log(pauseTexts.HowMuchFeedbackText);
-    }
-    private void OnButtonClickedHowFeel()
-    {
-        SetText(pauseTexts.HowFeelFeedbackText);
-        Debug.Log(pauseTexts.HowFeelFeedbackText);
+        SetText(pauseTexts.ChangedDifficulty);
+        Debug.Log(pauseTexts.ChangedDifficulty);
     }
 }

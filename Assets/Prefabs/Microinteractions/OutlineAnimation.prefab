@@ -51,9 +51,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animSprite: {fileID: 6620321743193775235}
-  minScale: 0.1
-  maxScale: 0.15
-  speedScale: 5
+  minScale: 0.14
+  maxScale: 0.18
+  speedScale: 10
   viewAngleMax: 45
   viewAngleMin: 12
   useCursorDistance: 0

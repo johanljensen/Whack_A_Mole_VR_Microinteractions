@@ -58,13 +58,23 @@ public class PointerFinder : MonoBehaviour
 
     private IEnumerator PointToMole()
     {
-        Debug.Log("Start finder routine");
+        //Debug.Log("Start finder routine");
+
+        bool moleFound = false;
         while (true)
         {
-            Vector3 lookingDirection = headCamera.transform.forward;
-            Vector3 relativeDirection = activeMole.position - headCamera.position;
+            if (!moleFound)
+            {
+                Vector3 lookingDirection = headCamera.transform.forward;
+                Vector3 relativeDirection = activeMole.position - headCamera.position;
 
-            float viewAngle = Vector3.Angle(lookingDirection, relativeDirection);
+                float viewAngle = Vector3.Angle(lookingDirection, relativeDirection);
+
+                if (viewAngle < viewAngleToActivate)
+                {
+                    moleFound = true;
+                }
+            }
 
             float pointerDistance = Vector3.Distance(activeMole.position, playerCursor.position);
 
@@ -77,8 +87,9 @@ public class PointerFinder : MonoBehaviour
             lineRenderer.endWidth = lineWidth;
 
             //Debug.Log("Looking for condition");
+            
 
-            if (viewAngle < viewAngleToActivate && pointerDistance > minDistanceToShow)
+            if (moleFound && pointerDistance > minDistanceToShow)
             {
                 lineRenderer.enabled = true;
                 //Debug.Log("Updating line");
@@ -86,10 +97,10 @@ public class PointerFinder : MonoBehaviour
                 Vector3[] positions = new Vector3[] { activeMole.position, playerCursor.position };
                 lineRenderer.SetPositions(positions);
 
-                Debug.Log("Distance: " + (pointerDistance-minDistanceToShow));
+                //Debug.Log("Distance: " + (pointerDistance-minDistanceToShow));
                 float desiredAlpha = (pointerDistance - minDistanceToShow) * alphaFactor;
-                Debug.Log("Current Alpha: " + currentAlpha);
-                Debug.Log("Desired Alpha: " + desiredAlpha);
+                //Debug.Log("Current Alpha: " + currentAlpha);
+                //Debug.Log("Desired Alpha: " + desiredAlpha);
                 if(desiredAlpha > maxAlpha) { desiredAlpha = maxAlpha; }
 
                 currentAlpha = Mathf.Lerp(currentAlpha, desiredAlpha, alphaFactor);
